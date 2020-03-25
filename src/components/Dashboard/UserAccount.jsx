@@ -16,42 +16,33 @@ const useStyles = makeStyles(() => ({
 }));
 
 const UserAccount = props => {
-  const { className, ...rest } = props;
+  const { className,setUser, user, ...rest } = props;
 
   const classes = useStyles();
-
-  const [values, setValues] = useState({
-    firstName: 'Shen',
-    lastName: 'Zhi',
-    email: 'shen.zhi@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
-  });
-
   const handleChange = event => {
-    setValues({
-      ...values,
+    setUser({
+      ...user,
       [event.target.name]: event.target.value
     });
   };
 
   const states = [
     {
-      value: 'alabama',
-      label: 'Alabama'
+      value: 'abuja',
+      label: 'Abuja'
     },
     {
-      value: 'new-york',
-      label: 'New York'
+      value: 'lagos',
+      label: 'Lagos'
     },
     {
-      value: 'san-francisco',
-      label: 'San Francisco'
+      value: 'kano',
+      label: 'Kano'
     }
   ];
 
   return (
+    
     <Card
       {...rest}
       className={classes.root}
@@ -77,13 +68,11 @@ const UserAccount = props => {
             >
               <TextField
                 fullWidth
-                helperText="Please specify the first name"
                 label="First name"
                 margin="dense"
-                name="firstName"
-                onChange={handleChange}
+                name="firstname"
                 required
-                value={values.firstName}
+                value={user.firstname}
                 variant="outlined"
                 disabled
               />
@@ -97,10 +86,9 @@ const UserAccount = props => {
                 fullWidth
                 label="Last name"
                 margin="dense"
-                name="lastName"
-                onChange={handleChange}
+                name="lastname"
                 required
-                value={values.lastName}
+                value={user.lastname}
                 variant="outlined"
                 disabled
               />
@@ -115,9 +103,9 @@ const UserAccount = props => {
                 label="Email Address"
                 margin="dense"
                 name="email"
-                onChange={handleChange}
+
                 required
-                value={values.email}
+                value={user.email}
                 variant="outlined"
                 disabled
               />
@@ -134,7 +122,7 @@ const UserAccount = props => {
                 name="phone"
                 onChange={handleChange}
                 type="number"
-                value={values.phone}
+                value={user.phone}
                 variant="outlined"
               />
             </Grid>
@@ -153,7 +141,7 @@ const UserAccount = props => {
                 select
                 // eslint-disable-next-line react/jsx-sort-props
                 SelectProps={{ native: true }}
-                value={values.state}
+                value={user.state}
                 variant="outlined"
               >
                 {states.map(option => (
@@ -178,7 +166,7 @@ const UserAccount = props => {
                 name="country"
                 onChange={handleChange}
                 required
-                value={values.country}
+                value={user.country}
                 variant="outlined"
               />
             </Grid>
