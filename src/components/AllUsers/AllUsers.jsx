@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext } from "react";
 import Navbar from "../Navbar/Navbar";
 import {
   Table,
@@ -14,6 +14,7 @@ import {
 } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import {UsersContext} from "../ContextApi/UsersContext"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -42,19 +43,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AllUsers = () => {
-  const [users, setUsers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-  const fetchUsers = async () => {
-    setIsLoading(true);
-    const response = await fetch("https://jsonplaceholder.typicode.com/users");
-    const data = await response.json();
-    setUsers(data);
-    setIsLoading(false);
-  };
-
+  const [users,setUsers, isLoading] = useContext(UsersContext)
   const delUser=(id)=>{
       let newUsers = [...users]
       newUsers = newUsers.filter(e => e.id != id)

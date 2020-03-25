@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,12 +8,12 @@ import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import MailIcon from "@material-ui/icons/Mail";
 import {Forum} from "@material-ui/icons"
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { People } from "@material-ui/icons";
 import { Link } from "react-router-dom";
+import {UsersContext} from "../ContextApi/UsersContext"
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -56,18 +56,7 @@ const Navbar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-
-  const [users, setUsers] = React.useState([]);
-
-  React.useEffect(() => {
-    fetchUsers();
-  }, []);
-  const fetchUsers = async () => {
-    const response = await fetch("https://jsonplaceholder.typicode.com/users");
-    const data = await response.json();
-    setUsers(data);
-  };
-
+  const [users] = useContext(UsersContext)
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
