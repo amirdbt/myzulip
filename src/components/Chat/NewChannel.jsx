@@ -19,7 +19,7 @@ const NewChannel = ({addChannel}) => {
   return (
     <form noValidate autoComplete="off" onSubmit={handleSubmit}>
       <Grid container direction="row" justify="flex-start">
-          <TextField id="channel" label="New Channel" value={channel} onChange={handleChange} variant="outlined" />      
+          <TextField id="channel" label="New Channel" value={channel} onChange={handleChange} variant="outlined" fullWidth />      
       </Grid>
     </form>
   );

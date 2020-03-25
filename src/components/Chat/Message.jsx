@@ -86,7 +86,7 @@ const Message = ({ message, delMessage, index,editMessage }) => {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary" variant="outlined">Cancel</Button>
-                    <Button  color="primary" variant="outlined">Submit</Button>
+                    <Button  color="primary" onClick={handleSubmit} variant="outlined">Submit</Button>
                 </DialogActions>
             </Dialog>
             <IconButton onClick={()=>{delMessage(index)}}>

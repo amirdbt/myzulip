@@ -4,6 +4,7 @@ import NewChannel from "./NewChannel";
 import MessageList from "./MessageList";
 import SendMessageForm from "./SendMessageForm";
 import { Grid } from "@material-ui/core";
+import Navbar from "../Navbar/Navbar"
 
 const Chat = () => {
   const [messages, setMessages] = useState([
@@ -46,8 +47,8 @@ const Chat = () => {
 
   const editMessage = (index, text) => {
     const newMessages = [...messages];
-    newMessages.splice(index,1,{text})
-    setMessages(newMessages)
+    newMessages.splice(index, 1, { text });
+    setMessages(newMessages);
   };
 
   const addChannel = name => {
@@ -55,13 +56,25 @@ const Chat = () => {
     setChannels(newChannel);
   };
 
+  const delChannel = index => {
+    const newChannels = [...channels];
+    newChannels.splice(index, 1);
+    setChannels(newChannels);
+  };
+
+    const editChannel = (index,name) =>{
+      const newChannels = [...channels]
+      newChannels.splice(index,1,{name})
+      setChannels(newChannels)
+    }
   return (
     <div>
+      <Navbar />
       <Grid container justify="center">
         <Grid item xs={12}>
           <Grid container>
             <Grid item xs={2}>
-              <ChannelList channels={channels} />
+              <ChannelList editChannel={editChannel} delChannel={delChannel} channels={channels} />
               <NewChannel addChannel={addChannel} />
             </Grid>
             <Grid item xs={10}>

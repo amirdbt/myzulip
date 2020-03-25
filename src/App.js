@@ -16,6 +16,7 @@ function App() {
       <Route  path="/users/:id" component={ViewUser} />
       <Route path="/dashboard" component={User} />
       <Route path="/chat" component={Chat} />
+      <Route path="/chat/:id" component={Chat} />
     </Switch>
   );
 }

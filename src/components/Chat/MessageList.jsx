@@ -1,17 +1,22 @@
 import React from "react";
 import { Card, CardContent, makeStyles, Typography } from "@material-ui/core";
 import Message from "./Message";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
-    height: "90vh",
+    height: "83vh",
     flexGrow: 1,
     overflow: "auto"
   }
 });
 
-const MessageList = ({ messages, delMessage,editMessage }) => {
+const MessageList = ({ messages, delMessage, editMessage }) => {
   const classes = useStyles();
+  let history = useHistory();
+  let index = history.location.pathname.lastIndexOf("/");
+  let path = history.location.pathname.slice(index + 1);
+
   return (
     <div>
       <Card className={classes.root}>
@@ -20,7 +25,6 @@ const MessageList = ({ messages, delMessage,editMessage }) => {
             return (
               <div key={index}>
                 <Typography variant="subtitle2">Amir Dambatta</Typography>
-                {/* <SnackbarContent message={message.text} /> <br /> */}
                 <Message
                   delMessage={delMessage}
                   editMessage={editMessage}
