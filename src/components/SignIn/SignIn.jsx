@@ -8,8 +8,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-// import Link from "@material-ui/core/Link";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -33,9 +32,10 @@ const useStyles = makeStyles(theme => ({
 
 const SignIn = () => {
   const classes = useStyles();
-
+  let history = useHistory();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
 
   const onChangeEmail = event => {
     const { value } = event.target;
@@ -50,7 +50,13 @@ const SignIn = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    console.log("Done");
+    if (!(email === "amyboy32@yahoo.com" && password === "dambatta")) {
+      setError(true);
+      history.push("/signin");
+    } else {
+      history.push("/dashboard");
+      console.log("Done");
+    }
   };
 
   return (
@@ -69,10 +75,12 @@ const SignIn = () => {
               <TextField
                 name="email"
                 variant="outlined"
+                error={error}
                 required
                 fullWidth
                 id="email"
                 label="Email"
+                type="email"
                 value={email}
                 onChange={onChangeEmail}
                 autoFocus
@@ -83,6 +91,7 @@ const SignIn = () => {
                 name="password"
                 type="password"
                 variant="outlined"
+                error={error}
                 required
                 fullWidth
                 id="password"

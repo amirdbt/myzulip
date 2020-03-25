@@ -85,6 +85,7 @@ const UserAccount = props => {
                 required
                 value={values.firstName}
                 variant="outlined"
+                disabled
               />
             </Grid>
             <Grid
@@ -101,6 +102,7 @@ const UserAccount = props => {
                 required
                 value={values.lastName}
                 variant="outlined"
+                disabled
               />
             </Grid>
             <Grid
@@ -117,6 +119,7 @@ const UserAccount = props => {
                 required
                 value={values.email}
                 variant="outlined"
+                disabled
               />
             </Grid>
             <Grid

@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -8,8 +8,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-// import Link from "@material-ui/core/Link";
-import {Link} from 'react-router-dom'
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -33,36 +32,49 @@ const useStyles = makeStyles(theme => ({
 
 const SignUp = () => {
   const classes = useStyles();
-  const [firstname,setFirstName] = useState('')
-  const [lastname,setLastName] = useState('')
-  const [email,setEmail] = useState('')
-  const [password,setPassword] = useState('')
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  let history = useHistory();
 
-  const onChangeFirstName =(event)=>{
-      const {value} = event.target 
-      setFirstName(value)
-      // console.log(value);
-  }
-  const onChangeLastName =(event)=>{
-      const {value} = event.target 
-      setLastName(value)
-      // console.log(value);
-  }
-  const onChangeEmail =(event)=>{
-      const {value} = event.target 
-      setEmail(value)
-      // console.log(value);
-  }
-  const onChangePassword =(event)=>{
-      const {value} = event.target 
-      setPassword(value)
-      // console.log(value);
-  }
+  const onChangeFirstName = event => {
+    const { value } = event.target;
+    setFirstName(value);
+    // console.log(value);
+  };
+  const onChangeLastName = event => {
+    const { value } = event.target;
+    setLastName(value);
+    // console.log(value);
+  };
+  const onChangeEmail = event => {
+    const { value } = event.target;
+    setEmail(value);
+    // console.log(value);
+  };
+  const onChangePassword = event => {
+    const { value } = event.target;
+    setPassword(value);
+    // console.log(value);
+  };
 
-  const handleSubmit =(event) =>{
-    event.preventDefault()
-    console.log("Done");
-  }
+  const handleSubmit = event => {
+    event.preventDefault();
+    if (
+      firstname === "" &&
+      lastname === "" &&
+      email === "" &&
+      password === ""
+    ) {
+      setError(true);
+      history.push("/");
+    } else {
+      history.push("/dashboard");
+      console.log("Done");
+    }
+  };
 
   return (
     <Container component="main" maxWidth="xs">
@@ -80,6 +92,7 @@ const SignUp = () => {
               <TextField
                 name="firstname"
                 variant="outlined"
+                error={error}
                 required
                 fullWidth
                 id="firstname"
@@ -93,6 +106,7 @@ const SignUp = () => {
               <TextField
                 name="lastname"
                 variant="outlined"
+                error={error}
                 required
                 fullWidth
                 id="lastname"
@@ -105,10 +119,12 @@ const SignUp = () => {
               <TextField
                 name="email"
                 variant="outlined"
+                error={error}
                 required
                 fullWidth
                 id="email"
                 label="Email"
+                type="email"
                 value={email}
                 onChange={onChangeEmail}
               />
@@ -116,6 +132,7 @@ const SignUp = () => {
             <Grid item xs={12}>
               <TextField
                 name="password"
+                error={error}
                 type="password"
                 variant="outlined"
                 required

@@ -9,11 +9,11 @@ import {
   TableRow,
   Paper,
   makeStyles,
-  Avatar
+  Avatar,
+  IconButton
 } from "@material-ui/core";
+import { Delete } from "@material-ui/icons";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import { Link } from "react-router-dom";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -55,6 +55,12 @@ const AllUsers = () => {
     setIsLoading(false);
   };
 
+  const delUser=(id)=>{
+      let newUsers = [...users]
+      newUsers = newUsers.filter(e => e.id != id)
+      setUsers(newUsers)
+  }
+
   const classes = useStyles();
   return (
     <div>
@@ -71,6 +77,8 @@ const AllUsers = () => {
                   <TableCell>Name</TableCell>
                   <TableCell>Username</TableCell>
                   <TableCell>Email</TableCell>
+                  <TableCell>Role</TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -83,13 +91,11 @@ const AllUsers = () => {
                     </TableCell>
                     <TableCell>{user.username}</TableCell>
                     <TableCell>{user.email}</TableCell>
-
+                    <TableCell>User</TableCell>
                     <TableCell>
-                      <Link className={classes.link} to={`users/${user.id}`}>
-                        <Button size="small" variant="outlined" color="primary">
-                          View User
-                        </Button>
-                      </Link>
+                      <IconButton onClick={()=>{delUser(`${user.id}`)}}>
+                        <Delete />
+                      </IconButton>
                     </TableCell>
                   </TableRow>
                 ))}
