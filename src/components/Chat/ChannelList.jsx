@@ -24,24 +24,24 @@ const useStyles = makeStyles(theme => ({
     marginTop: theme.spacing(2)
   }
 }));
-const ChannelList = ({channels}) => {
+const ChannelList = ({ channels }) => {
   const classes = useStyles();
-  
+
   return (
     <div className={classes.root}>
       <Typography className={classes.title} variant="h5">
         <Room className={classes.room} /> Channels
       </Typography>
-      <List>
-        {channels.map((channel, index) => (
+      {channels.map((channel, index) => (
+        <List key={index}>
           <ListItem button>
             <ListItemIcon>
               <Chat />
             </ListItemIcon>
             <ListItemText>{channel.name}</ListItemText>
           </ListItem>
-        ))}
-      </List>
+        </List>
+      ))}
     </div>
   );
 };
