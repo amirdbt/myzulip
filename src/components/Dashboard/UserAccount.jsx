@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import { makeStyles } from "@material-ui/styles";
 import {
   Card,
@@ -10,7 +10,7 @@ import {
   Button,
   TextField
 } from "@material-ui/core";
-import {UserContext} from "../ContextApi/UserContext"
+import { UserContext } from "../ContextApi/UserContext";
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -18,28 +18,12 @@ const useStyles = makeStyles(() => ({
 
 const UserAccount = props => {
   const { className, ...rest } = props;
-  const [firstname, setFirstname] = useState("");
-  const [lastname, setLastname] = useState("");
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
-  const [user,updateUser] = useContext(UserContext)
+  const [user,setUser,updateUser,removePicture] = useContext(UserContext);
 
   const classes = useStyles();
-
-  const handleFirstname = event => {
-    const { value } = event.target;
-    setFirstname(value);
-  };
-  const handleLastname = event => {
-    const { value } = event.target;
-    setLastname(value);
-  };
-  const handleEmail = event => {
-    const { value } = event.target;
-    setEmail(value);
-  };
 
   const handlePhone = event => {
     const { value } = event.target;
@@ -57,52 +41,16 @@ const UserAccount = props => {
   };
   const handleSubmit = event => {
     event.preventDefault();
-    updateUser(phone,state,country)
+    updateUser(phone, state, country);
   };
 
   return (
     <form autoComplete="off" noValidate onSubmit={handleSubmit}>
       <Card {...rest} className={classes.root}>
-        <CardHeader subheader="The information can be edited" title="Profile" />
+        <CardHeader subheader="Complete your profile" title="Profile" />
         <Divider />
         <CardContent>
           <Grid container spacing={3}>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="First name"
-                margin="dense"
-                name="firstname"
-                required
-                value={user.firstname}
-                variant="outlined"
-                onChange={handleFirstname}
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Last name"
-                margin="dense"
-                name="lastname"
-                required
-                value={user.lastname}
-                variant="outlined"
-                onChange={handleLastname}
-              />
-            </Grid>
-            <Grid item md={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Email Address"
-                margin="dense"
-                name="email"
-                required
-                value={user.email}
-                variant="outlined"
-                onChange={handleEmail}
-              />
-            </Grid>
             <Grid item md={6} xs={12}>
               <TextField
                 fullWidth

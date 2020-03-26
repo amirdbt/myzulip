@@ -1,19 +1,20 @@
-import React, { useState, createContext } from "react";
-
+import React, { useState, createContext,useEffect } from "react";
+import {getJwt} from "../../helpers/jwt"
 export const UserContext = createContext();
 
 export const UserProvider = props => {
-    const [user, setUser] = useState({
-        firstname: "Jane",
-        lastname: "Doe",
-        email: "jane.doe@yahoo.com",
-        img:
-        "https://react-material-dashboard.devias.io/images/avatars/avatar_11.png",
-        phone: "0809880998",
-        state: "Abuja",
-        country: "Nigeria",
-       
-      });
+  const [user,setUser] = useState({})
+
+      const token = getJwt()
+    useEffect(()=>{
+        fetchUser()
+    },[])
+    const fetchUser =async () =>{
+      const response = await fetch(`http://localhost:3001/users/${token}`)
+      const data = await response.json()
+      console.log(data);
+      setUser(data)
+    }
       const updateUser =(phone,state,country)=>{
           setUser({
               ...user,
@@ -21,28 +22,11 @@ export const UserProvider = props => {
               state,
               country
           })
-        // const userObj = user
-        // userObj["firstname"] =  user.firstname
-        // userObj["lastname"] =  user.lastname
-        // userObj["email"] =  user.email
-        // userObj["img"] =  user.img
-        // userObj["phone"] = phone
-        // userObj["state"] = state
-        // userObj["country"] = country
-        // setUser(userObj)
-        // console.log(user);
+      
     }
     const removePicture = () => {
         setUser({...user,img: null})
-        // const userObj = user;
-        // userObj["firstname"] =  user.firstname
-        // userObj["lastname"] =  user.lastname
-        // userObj["email"] =  user.email
-        // userObj["img"] = null;
-        // userObj["phone"] =  user.phone
-        // userObj["state"] =  user.state
-        // userObj["country"] =  user.country
-        // setUser(userObj);
+   
       };
 
   return <UserContext.Provider value={[user,setUser,updateUser,removePicture]}>{props.children}</UserContext.Provider>;

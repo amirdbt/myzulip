@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -42,37 +43,43 @@ const SignUp = () => {
   const onChangeFirstName = event => {
     const { value } = event.target;
     setFirstName(value);
-    // console.log(value);
   };
   const onChangeLastName = event => {
     const { value } = event.target;
     setLastName(value);
-    // console.log(value);
   };
   const onChangeEmail = event => {
     const { value } = event.target;
     setEmail(value);
-    // console.log(value);
   };
   const onChangePassword = event => {
     const { value } = event.target;
     setPassword(value);
-    // console.log(value);
   };
 
   const handleSubmit = event => {
     event.preventDefault();
     if (
-      firstname === "" &&
-      lastname === "" &&
-      email === "" &&
+      firstname === "" ||
+      lastname === "" ||
+      email === "" ||
       password === ""
     ) {
       setError(true);
       history.push("/");
     } else {
+      axios
+        .post("http://localhost:3001/users/register", {
+          firstname,
+          lastname,
+          email,
+          password
+        })
+        .then(res => localStorage.setItem("token", res.data))
+        .catch(err => {
+          console.log(err);
+        });
       history.push("/dashboard");
-      console.log("Done");
     }
   };
 

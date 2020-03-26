@@ -30,18 +30,10 @@ const useStyles = makeStyles(theme => ({
     textDecoration: "none",
     color: "white"
   },
-  avatar: {
-    display: "flex",
-    flexDirection: "row"
-  },
-  name: {
-    marginLeft: theme.spacing(2),
-    marginTop: theme.spacing(1)
-  },
   av: {
     width: theme.spacing(3),
     height: theme.spacing(3)
-  }
+  },
 }));
 
 const AllUsers = () => {
@@ -66,11 +58,11 @@ const AllUsers = () => {
             ) : (
               <TableContainer component={Paper}>
                 <Table className={classes.table} aria-label="simple table">
-                  <TableHead>
+                  <TableHead >
                     <TableRow>
-                      <TableCell>#</TableCell>
-                      <TableCell>Name</TableCell>
-                      <TableCell>Username</TableCell>
+                      <TableCell>Profile Image</TableCell>
+                      <TableCell>First Name</TableCell>
+                      <TableCell>Last Name</TableCell>
                       <TableCell>Email</TableCell>
                       <TableCell>Role</TableCell>
                       <TableCell>Action</TableCell>
@@ -79,12 +71,12 @@ const AllUsers = () => {
                   <TableBody>
                     {users.map(user => (
                       <TableRow key={user.id} hover>
-                        <TableCell>{user.id}</TableCell>
-                        <TableCell className={classes.avatar}>
+                        <TableCell>
+                          {" "}
                           <Avatar src="https://react-material-dashboard.devias.io/images/avatars/avatar_11.png" />
-                          <div className={classes.name}>{user.name}</div>
                         </TableCell>
-                        <TableCell>{user.username}</TableCell>
+                        <TableCell>{user.firstname}</TableCell>
+                        <TableCell>{user.lastname}</TableCell>
                         <TableCell>{user.email}</TableCell>
                         <TableCell>User</TableCell>
                         <TableCell>
