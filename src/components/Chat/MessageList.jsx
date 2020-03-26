@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, createRef } from "react";
 import { Card, CardContent, makeStyles, Typography } from "@material-ui/core";
 import Message from "./Message";
 import { useHistory } from "react-router-dom";
@@ -16,6 +16,13 @@ const MessageList = ({ messages, delMessage, editMessage }) => {
   let history = useHistory();
   let index = history.location.pathname.lastIndexOf("/");
   let path = history.location.pathname.slice(index + 1);
+  let messagesEnd = createRef();
+  const scrollToBottom = () => {
+    messagesEnd.scrollIntoView({ behavior: "smooth" });
+  };
+  useEffect(() => {
+    scrollToBottom();
+  });
 
   return (
     <div>
@@ -34,6 +41,17 @@ const MessageList = ({ messages, delMessage, editMessage }) => {
               </div>
             );
           })}
+          <div
+            style={{
+              float: "left",
+              clear: "both",
+              height: "30px",
+              width: "100%",
+            }}
+            ref={el => {
+              messagesEnd = el;
+            }}
+          ></div>
         </CardContent>
       </Card>
     </div>

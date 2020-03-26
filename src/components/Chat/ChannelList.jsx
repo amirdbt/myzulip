@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState} from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -46,8 +46,6 @@ const ChannelList = ({ channels, delChannel, editChannel }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
-  // const [index] = channels;
-
   const handleChange = event => {
     const { value } = event.target;
     setText(value);

@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import ChannelList from "./ChannelList";
 import NewChannel from "./NewChannel";
 import MessageList from "./MessageList";
 import SendMessageForm from "./SendMessageForm";
 import { Grid } from "@material-ui/core";
 import Navbar from "../Navbar/Navbar"
+import {useHistory} from "react-router-dom"
+import {getJwt} from "../../helpers/jwt"
 
 const Chat = () => {
+  const token = getJwt()
+  let history = useHistory()
   const [messages, setMessages] = useState([
     {
       text: "Hey, how is it going?"
@@ -69,25 +73,31 @@ const Chat = () => {
     }
   return (
     <div>
-      <Navbar />
-      <Grid container justify="center">
-        <Grid item xs={12}>
-          <Grid container>
-            <Grid item xs={2}>
-              <ChannelList editChannel={editChannel} delChannel={delChannel} channels={channels} />
-              <NewChannel addChannel={addChannel} />
-            </Grid>
-            <Grid item xs={10}>
-              <MessageList
-                editMessage={editMessage}
-                delMessage={delMessage}
-                messages={messages}
-              />
-              <SendMessageForm addMessage={addMessage} />
+    {
+      token ? (<div>  <Navbar />
+        <Grid container justify="center">
+          <Grid item xs={12}>
+            <Grid container>
+              <Grid item xs={2}>
+                <ChannelList editChannel={editChannel} delChannel={delChannel} channels={channels} />
+                <NewChannel addChannel={addChannel} />
+              </Grid>
+              <Grid item xs={10}>
+                <MessageList
+                  editMessage={editMessage}
+                  delMessage={delMessage}
+                  messages={messages}
+                />
+                <SendMessageForm addMessage={addMessage} />
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
-      </Grid>
+        </div>
+        ): (
+          history.push("/signin")
+        )
+    }
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import moment from "moment";
 import {
@@ -13,6 +13,7 @@ import {
   IconButton
 } from "@material-ui/core";
 import { PhotoCamera } from "@material-ui/icons";
+import { UserContext } from "../ContextApi/UserContext";
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -38,9 +39,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const UserDashboard = props => {
-  const { className,removePicture, user, ...rest } = props;
+  const { className, ...rest } = props;
   const classes = useStyles();
   const [count, setCount] = useState(50);
+  const [user, removePicture] = useContext(UserContext);
 
   useEffect(() => {
     checkPogress();
@@ -72,7 +74,13 @@ const UserDashboard = props => {
               {user.firstname} {user.lastname}
             </Typography>
             <Typography variant="body1" color="textSecondary">
+              {user.email}
+            </Typography>
+            <Typography variant="body1" color="textSecondary">
               {user.state}, {user.country}
+            </Typography>
+            <Typography variant="body1" color="textSecondary">
+              {user.phone}
             </Typography>
             <Typography variant="body1" color="textSecondary">
               {moment().format("hh:mm A")} ('GMT+1')
@@ -105,7 +113,9 @@ const UserDashboard = props => {
             <PhotoCamera />
           </IconButton>
         </label>
-        <Button variant="text" onClick={removePicture} >Remove picture</Button>
+        <Button variant="text" onClick={removePicture}>
+          Remove picture
+        </Button>
       </CardActions>
     </Card>
   );

@@ -14,7 +14,9 @@ import {
 } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import {UsersContext} from "../ContextApi/UsersContext"
+import { UsersContext } from "../ContextApi/UsersContext";
+import { useHistory } from "react-router-dom";
+import { getJwt } from "../../helpers/jwt";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,56 +45,68 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AllUsers = () => {
-  const [users,setUsers, isLoading] = useContext(UsersContext)
-  const delUser=(id)=>{
-      let newUsers = [...users]
-      newUsers = newUsers.filter(e => e.id != id)
-      setUsers(newUsers)
-  }
+  const [users, setUsers, isLoading] = useContext(UsersContext);
+  const token = getJwt();
+  let history = useHistory();
+  const delUser = id => {
+    let newUsers = [...users];
+    newUsers = newUsers.filter(e => e.id !== id);
+    setUsers(newUsers);
+  };
 
   const classes = useStyles();
   return (
     <div>
-      <Navbar />
-      <div className={classes.root}>
-        {isLoading ? (
-          <CircularProgress />
-        ) : (
-          <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-              <TableHead>
-                <TableRow>
-                  <TableCell>#</TableCell>
-                  <TableCell>Name</TableCell>
-                  <TableCell>Username</TableCell>
-                  <TableCell>Email</TableCell>
-                  <TableCell>Role</TableCell>
-                  <TableCell>Action</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {users.map(user => (
-                  <TableRow key={user.id} hover>
-                    <TableCell>{user.id}</TableCell>
-                    <TableCell className={classes.avatar}>
-                      <Avatar src="https://react-material-dashboard.devias.io/images/avatars/avatar_11.png" />
-                      <div className={classes.name}>{user.name}</div>
-                    </TableCell>
-                    <TableCell>{user.username}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>User</TableCell>
-                    <TableCell>
-                      <IconButton onClick={()=>{delUser(`${user.id}`)}}>
-                        <Delete />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        )}
-      </div>
+      {token ? (
+        <div>
+          <Navbar />
+          <div className={classes.root}>
+            {isLoading ? (
+              <CircularProgress />
+            ) : (
+              <TableContainer component={Paper}>
+                <Table className={classes.table} aria-label="simple table">
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>#</TableCell>
+                      <TableCell>Name</TableCell>
+                      <TableCell>Username</TableCell>
+                      <TableCell>Email</TableCell>
+                      <TableCell>Role</TableCell>
+                      <TableCell>Action</TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {users.map(user => (
+                      <TableRow key={user.id} hover>
+                        <TableCell>{user.id}</TableCell>
+                        <TableCell className={classes.avatar}>
+                          <Avatar src="https://react-material-dashboard.devias.io/images/avatars/avatar_11.png" />
+                          <div className={classes.name}>{user.name}</div>
+                        </TableCell>
+                        <TableCell>{user.username}</TableCell>
+                        <TableCell>{user.email}</TableCell>
+                        <TableCell>User</TableCell>
+                        <TableCell>
+                          <IconButton
+                            onClick={() => {
+                              delUser(`${user.id}`);
+                            }}
+                          >
+                            <Delete />
+                          </IconButton>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </div>
+        </div>
+      ) : (
+        history.push("/signin")
+      )}
     </div>
   );
 };

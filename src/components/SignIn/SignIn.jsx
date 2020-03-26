@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link, useHistory } from "react-router-dom";
+import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -36,26 +37,31 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-
   const onChangeEmail = event => {
     const { value } = event.target;
     setEmail(value);
-    // console.log(value);
   };
   const onChangePassword = event => {
     const { value } = event.target;
     setPassword(value);
-    // console.log(value);
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    if (!(email === "amyboy32@yahoo.com" && password === "dambatta")) {
-      setError(true);
-      history.push("/signin");
+    if (email === "" && password === "") {
+      setError(true)
     } else {
+      axios
+        .post("http://localhost:3001/users/login", {
+          email,
+          password
+        })
+        .then(res => localStorage.setItem("token", res.data))
+        .catch(err =>{
+          console.log(err);
+        })
+
       history.push("/dashboard");
-      console.log("Done");
     }
   };
 

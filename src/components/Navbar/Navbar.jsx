@@ -1,4 +1,4 @@
-import React,{useContext} from "react";
+import React, { useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -8,12 +8,11 @@ import Badge from "@material-ui/core/Badge";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import AccountCircle from "@material-ui/icons/AccountCircle";
-import {Forum} from "@material-ui/icons"
-import NotificationsIcon from "@material-ui/icons/Notifications";
+import { Forum } from "@material-ui/icons";
 import MoreIcon from "@material-ui/icons/MoreVert";
 import { People } from "@material-ui/icons";
 import { Link } from "react-router-dom";
-import {UsersContext} from "../ContextApi/UsersContext"
+import { UsersContext } from "../ContextApi/UsersContext";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -56,9 +55,13 @@ const Navbar = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
-  const [users] = useContext(UsersContext)
+  const [users] = useContext(UsersContext);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    const delToken =() =>{
+      return localStorage.clear()
+    }
 
   const handleProfileMenuOpen = event => {
     setAnchorEl(event.currentTarget);
@@ -94,7 +97,7 @@ const Navbar = () => {
       </Link>
       <Link className={classes.link} to="/signin">
         {" "}
-        <MenuItem onClick={handleMenuClose}>Log out</MenuItem>
+        <MenuItem onClick={delToken}>Log out</MenuItem>
       </Link>
     </Menu>
   );
@@ -112,11 +115,11 @@ const Navbar = () => {
     >
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="secondary">
+          <Badge  color="secondary">
             <Forum />
           </Badge>
         </IconButton>
-        <p>Messages</p>
+        <Link to="/chat" className={classes.link}> <p>Channels</p></Link>
       </MenuItem>
       <MenuItem>
         <IconButton aria-label="show all users" color="inherit">
@@ -124,15 +127,9 @@ const Navbar = () => {
             <People />
           </Badge>
         </IconButton>
-        <p>All Users</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton aria-label="show 11 new notifications" color="inherit">
-          <Badge badgeContent={11} color="secondary">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
+        <Link to="/users" className={classes.link}>
+          <p>All Users</p>
+        </Link>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -152,19 +149,18 @@ const Navbar = () => {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-         
           <Typography className={classes.title} variant="h6" noWrap>
             MyZulip
           </Typography>
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-          <Link className={classes.link1} to="/chat">
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <Badge  color="secondary">
-                <Forum />
-              </Badge>
-            </IconButton>
+            <Link className={classes.link1} to="/chat">
+              <IconButton aria-label="show 4 new mails" color="inherit">
+                <Badge color="secondary">
+                  <Forum />
+                </Badge>
+              </IconButton>
             </Link>
             <Link className={classes.link1} to="/users">
               {" "}
@@ -174,7 +170,7 @@ const Navbar = () => {
                 </Badge>
               </IconButton>
             </Link>
-           
+
             <IconButton
               edge="end"
               aria-label="account of current user"
