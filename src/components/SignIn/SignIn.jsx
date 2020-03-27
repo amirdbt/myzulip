@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link, useHistory } from "react-router-dom";
+import Alert from "@material-ui/lab/Alert"
 import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
@@ -28,6 +29,9 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  alert:{
+    marginTop: theme.spacing(2)
   }
 }));
 
@@ -37,6 +41,7 @@ const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [err, setErr] = useState('');
   const onChangeEmail = event => {
     const { value } = event.target;
     setEmail(value);
@@ -49,7 +54,8 @@ const SignIn = () => {
   const handleSubmit = event => {
     event.preventDefault();
     if (email === "" && password === "") {
-      setError(true)
+      setError(true);
+      setErr("Fields can not be empty")
     } else {
       axios
         .post("http://localhost:3001/users/login", {
@@ -57,9 +63,12 @@ const SignIn = () => {
           password
         })
         .then(res => localStorage.setItem("token", res.data))
-        .catch(err =>{
-          console.log(err);
-        })
+        .catch(err => {
+          console.log(err.response.data.message);
+          setError(true)
+          setErr(err.response.data.message)
+         
+        });
 
       history.push("/dashboard");
     }
@@ -68,6 +77,7 @@ const SignIn = () => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+  {error ? <Alert className={classes.alert} severity="error" variant="outlined">{err}</Alert> : <div></div> }
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />

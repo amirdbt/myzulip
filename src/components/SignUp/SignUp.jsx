@@ -9,6 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link, useHistory } from "react-router-dom";
+import {Alert} from "@material-ui/lab"
 import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
@@ -28,6 +29,9 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  alert:{
+    marginTop: theme.spacing(2)
   }
 }));
 
@@ -38,6 +42,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [err, setErr] = useState('');
   let history = useHistory();
 
   const onChangeFirstName = event => {
@@ -66,6 +71,7 @@ const SignUp = () => {
       password === ""
     ) {
       setError(true);
+      setErr("Fields can not be empty")
       history.push("/");
     } else {
       axios
@@ -77,7 +83,8 @@ const SignUp = () => {
         })
         .then(res => localStorage.setItem("token", res.data))
         .catch(err => {
-          console.log(err);
+          setError(true)
+          setErr(err.response.data.message)
         });
       history.push("/dashboard");
     }
@@ -86,6 +93,7 @@ const SignUp = () => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      {error ? <Alert className={classes.alert} severity="error" variant="outlined">{err}</Alert> : <div></div> }
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />

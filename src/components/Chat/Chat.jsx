@@ -1,4 +1,4 @@
-import React, { useState,useContext } from "react";
+import React, { useState } from "react";
 import ChannelList from "./ChannelList";
 import NewChannel from "./NewChannel";
 import MessageList from "./MessageList";
@@ -30,12 +30,7 @@ const Chat = () => {
     {
       name: "general"
     },
-    {
-      name: "polls"
-    },
-    {
-      name: "software-development"
-    }
+  
   ]);
 
   const addMessage = text => {

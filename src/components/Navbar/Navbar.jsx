@@ -59,9 +59,9 @@ const Navbar = () => {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-    const delToken =() =>{
-      return localStorage.clear()
-    }
+  const delToken = () => {
+    return localStorage.removeItem("token");
+  };
 
   const handleProfileMenuOpen = event => {
     setAnchorEl(event.currentTarget);
@@ -115,11 +115,14 @@ const Navbar = () => {
     >
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge  color="secondary">
+          <Badge color="secondary">
             <Forum />
           </Badge>
         </IconButton>
-        <Link to="/chat" className={classes.link}> <p>Channels</p></Link>
+        <Link to="/chat" className={classes.link}>
+          {" "}
+          <p>Channels</p>
+        </Link>
       </MenuItem>
       <MenuItem>
         <IconButton aria-label="show all users" color="inherit">
