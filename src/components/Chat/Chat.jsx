@@ -7,6 +7,7 @@ import { Grid } from "@material-ui/core";
 import Navbar from "../Navbar/Navbar"
 import {useHistory} from "react-router-dom"
 import {getJwt} from "../../helpers/jwt"
+import ConversationList from "./ConversationList"
 
 const Chat = () => {
   const token = getJwt()
@@ -77,13 +78,16 @@ const Chat = () => {
                 <ChannelList editChannel={editChannel} delChannel={delChannel} channels={channels} />
                 <NewChannel addChannel={addChannel} />
               </Grid>
-              <Grid item xs={10}>
+              <Grid item xs={8}>
                 <MessageList
                   editMessage={editMessage}
                   delMessage={delMessage}
                   messages={messages}
                 />
                 <SendMessageForm addMessage={addMessage} />
+              </Grid>
+              <Grid item xs={2}>
+                  <ConversationList  />
               </Grid>
             </Grid>
           </Grid>

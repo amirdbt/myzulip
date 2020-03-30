@@ -10,10 +10,12 @@ import {
   Typography,
   LinearProgress,
   Avatar,
-  IconButton
+  IconButton,
+  Tooltip
 } from "@material-ui/core";
 import { PhotoCamera } from "@material-ui/icons";
 import { UserContext } from "../ContextApi/UserContext";
+import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -105,6 +107,7 @@ const UserDashboard = props => {
           type="file"
         />
         <label htmlFor="icon-button-file">
+          <Tooltip title="Add Image" arrow>
           <IconButton
             color="primary"
             aria-label="upload picture"
@@ -112,10 +115,18 @@ const UserDashboard = props => {
           >
             <PhotoCamera />
           </IconButton>
+          </Tooltip>
         </label>
+        <Tooltip title="Remove Picture" arrow>
         <Button variant="text" onClick={removePicture}>
           Remove picture
         </Button>
+        </Tooltip>
+        <Tooltip title="Deactivate Account" arrow>
+        <IconButton>
+          <PersonAddDisabledIcon />
+        </IconButton>
+        </Tooltip>
       </CardActions>
     </Card>
   );

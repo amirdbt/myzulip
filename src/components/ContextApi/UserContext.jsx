@@ -5,6 +5,8 @@ export const UserContext = createContext();
 export const UserProvider = props => {
   const [user,setUser] = useState({})
 
+
+
       const token = getJwt()
     useEffect(()=>{
         fetchUser()

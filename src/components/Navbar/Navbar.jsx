@@ -13,6 +13,7 @@ import MoreIcon from "@material-ui/icons/MoreVert";
 import { People } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { UsersContext } from "../ContextApi/UsersContext";
+import Tooltip from "@material-ui/core/Tooltip";
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -159,21 +160,24 @@ const Navbar = () => {
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
             <Link className={classes.link1} to="/chat">
+              <Tooltip title="MyZulip Channels" arrow>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge color="secondary">
                   <Forum />
                 </Badge>
               </IconButton>
+              </Tooltip>
             </Link>
             <Link className={classes.link1} to="/users">
-              {" "}
-              <IconButton aria-label="show all users" color="inherit">
-                <Badge badgeContent={users.length} color="secondary">
-                  <People />
-                </Badge>
-              </IconButton>
+              <Tooltip title="All Users" arrow>
+                <IconButton aria-label="show all users" color="inherit">
+                  <Badge badgeContent={users.length} color="secondary">
+                    <People />
+                  </Badge>
+                </IconButton>
+              </Tooltip>
             </Link>
-
+            <Tooltip title="My Profile" arrow>
             <IconButton
               edge="end"
               aria-label="account of current user"
@@ -184,6 +188,7 @@ const Navbar = () => {
             >
               <AccountCircle />
             </IconButton>
+            </Tooltip>
           </div>
           <div className={classes.sectionMobile}>
             <IconButton

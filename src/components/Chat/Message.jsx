@@ -13,6 +13,9 @@ import {
   Button
 } from "@material-ui/core";
 import { Delete, Edit } from "@material-ui/icons";
+import CommentIcon from '@material-ui/icons/Comment';
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,6 +38,17 @@ const useStyles = makeStyles(theme => ({
 const Message = ({ message, delMessage, index,editMessage }) => {
     const [open,setOpen] = useState(false)
     const [text,setText] = useState('')
+    const [chosenEmoji, setChosenEmoji] = useState('')
+    const [showEmoji, setShowEmoji] = useState(false)
+
+    const EmojiOn =() =>{
+      setShowEmoji(!showEmoji)
+    }
+
+    const onEmojiClick = (event) =>{
+      setChosenEmoji(event.native)
+      setText(text+chosenEmoji)
+    }
 
     const handleChange =(event) =>{
         const {value} = event.target 
@@ -63,6 +77,9 @@ const Message = ({ message, delMessage, index,editMessage }) => {
         <div className={classes.root}>
           <Typography className={classes.ty}> {message}</Typography>
           <div className={classes.icons}>
+            <IconButton>
+              <CommentIcon />
+            </IconButton>
             <IconButton onClick={handleClickOpen}>
               <Edit  />
             </IconButton>
@@ -83,6 +100,16 @@ const Message = ({ message, delMessage, index,editMessage }) => {
                     fullWidth
                 />
                 </form>
+                <span>
+       { showEmoji ? (
+        <Card style={styles.emojiPicker}>  <Picker onSelect={onEmojiClick} title="MyZulip" /></Card>
+       ): (
+         <div></div>
+       )}
+        <p style={styles.getEmojiButton} onClick={EmojiOn}>
+            {String.fromCodePoint(0x1f60a)}
+          </p>
+      </span>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose} color="primary" variant="outlined">Cancel</Button>
@@ -100,3 +127,19 @@ const Message = ({ message, delMessage, index,editMessage }) => {
 };
 
 export default Message;
+const styles = {
+  getEmojiButton: {
+    cssFloat: "right",
+    border: "solid",
+    margin: 0,
+    cursor: "pointer",
+    bottom: 10,
+  },
+  emojiPicker: {
+    position: "absolute",
+    bottom: 10,
+    right: 0,
+    cssFloat: "right",
+    marginLeft: "200px"
+  }
+};

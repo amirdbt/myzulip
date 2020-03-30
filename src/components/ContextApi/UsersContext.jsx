@@ -5,6 +5,18 @@ export const UsersContext = createContext();
 export const UsersProvider = props => {
   const [users, setUsers] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [userRole, setUserRole] = useState('User')
+
+  const changeRole =() =>{
+    if(userRole === "User")
+    {
+      setUserRole('Admin')
+    }
+    else{
+      setUserRole('User')
+    }
+    
+  }
 
   useEffect(() => {
     fetchusers();
@@ -18,5 +30,5 @@ export const UsersProvider = props => {
     console.log(data);
     setIsLoading(false);
   };
-  return <UsersContext.Provider value={[users,setUsers,isLoading]}>{props.children}</UsersContext.Provider>;
+  return <UsersContext.Provider value={[users,setUsers,isLoading,userRole,changeRole]}>{props.children}</UsersContext.Provider>;
 };

@@ -10,13 +10,16 @@ import {
   Paper,
   makeStyles,
   Avatar,
-  IconButton
+  IconButton,
+  Tooltip,
+  Button
 } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { UsersContext } from "../ContextApi/UsersContext";
 import { useHistory } from "react-router-dom";
 import { getJwt } from "../../helpers/jwt";
+import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -37,7 +40,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AllUsers = () => {
-  const [users, setUsers, isLoading] = useContext(UsersContext);
+  const [users, setUsers, isLoading,userRole,changeRole] = useContext(UsersContext);
   const token = getJwt();
   let history = useHistory();
   const delUser = id => {
@@ -45,7 +48,7 @@ const AllUsers = () => {
     newUsers = newUsers.filter(e => e.id !== id);
     setUsers(newUsers);
   };
-
+  const text = userRole === "User" ? "Make Admin" : "Remove Admin"
   const classes = useStyles();
   return (
     <div>
@@ -78,8 +81,9 @@ const AllUsers = () => {
                         <TableCell>{user.firstname}</TableCell>
                         <TableCell>{user.lastname}</TableCell>
                         <TableCell>{user.email}</TableCell>
-                        <TableCell>User</TableCell>
+                        <TableCell>{userRole}</TableCell>
                         <TableCell>
+                          <Tooltip title="Delete user">
                           <IconButton
                             onClick={() => {
                               delUser(`${user.id}`);
@@ -87,6 +91,10 @@ const AllUsers = () => {
                           >
                             <Delete />
                           </IconButton>
+                          </Tooltip>
+                          <Tooltip title={text}>
+                          <Button onClick={changeRole}>{text}</Button>
+                          </Tooltip>
                         </TableCell>
                       </TableRow>
                     ))}
