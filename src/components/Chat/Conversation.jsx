@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Card,
   CardContent,
@@ -11,11 +11,10 @@ import {
   DialogContent,
   DialogTitle,
   Button,
-  Tooltip,
-  Menu,
-  MenuItem
+  Tooltip
 } from "@material-ui/core";
-import { MoreVert, Delete, Edit } from "@material-ui/icons";
+import { Delete, Edit } from "@material-ui/icons";
+import { UserContext } from "../ContextApi/UserContext";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -39,12 +38,14 @@ const Conversation = ({
   conversation,
   editConversation,
   index,
-  delConversation
+  delConversation,
+  email
 }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
+  const [user] = useContext(UserContext);
   const handleChange = event => {
     const { value } = event.target;
     setText(value);
@@ -53,7 +54,7 @@ const Conversation = ({
 
   const handleSubmit = event => {
     event.preventDefault();
-    editConversation(index, text);
+    editConversation(index, user.firstname, user.lastname, user.email, text);
     setText("");
     dialogClose();
     // console.log(text);
@@ -80,20 +81,26 @@ const Conversation = ({
         <div className={classes.root}>
           <Typography className={classes.ty}>{conversation}</Typography>
           <div className={classes.icons}>
-            <Tooltip title="Edit" arrow>
-              <IconButton onClick={dialogOpen}>
-                <Edit />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete" arrow>
-              <IconButton
-                onClick={() => {
-                  delConversation(index);
-                }}
-              >
-                <Delete />
-              </IconButton>
-            </Tooltip>
+            {user.email === email ? (
+              <>
+                <Tooltip title="Edit" arrow>
+                  <IconButton onClick={dialogOpen}>
+                    <Edit />
+                  </IconButton>
+                </Tooltip>
+                <Tooltip title="Delete" arrow>
+                  <IconButton
+                    onClick={() => {
+                      delConversation(index);
+                    }}
+                  >
+                    <Delete />
+                  </IconButton>
+                </Tooltip>
+              </>
+            ) : (
+              <div></div>
+            )}
           </div>
 
           <Dialog

@@ -4,6 +4,7 @@ import Message from "./Message";
 import { useHistory } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close"
 import {UsersContext} from "../ContextApi/UsersContext"
+import {UserContext} from "../ContextApi/UserContext"
 
 const useStyles = makeStyles(theme =>({
   root: {
@@ -31,6 +32,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const MessageList = ({ messages, delMessage, editMessage }) => {
   const [users, setUsers, isLoading] = useContext(UsersContext);
+  const [user] = useContext(UserContext);
   const classes = useStyles();
   let history = useHistory();
   let index = history.location.pathname.lastIndexOf("/");
@@ -81,11 +83,12 @@ const MessageList = ({ messages, delMessage, editMessage }) => {
           {messages.map((message, index) => {
             return (
               <div key={index}>
-                <Typography variant="subtitle2">Amir Dambatta</Typography>
+                <Typography variant="subtitle2">{message.firstname} {message.lastname}</Typography>
                 <Message
                   delMessage={delMessage}
                   editMessage={editMessage}
                   message={message.text}
+                  email ={message.email}
                   index={index}
                 />
               </div>

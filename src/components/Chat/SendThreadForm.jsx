@@ -1,10 +1,12 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import {OutlinedInput,FormControl,InputLabel} from "@material-ui/core"
+import {UserContext} from "../ContextApi/UserContext"
 
 
 const SendThreadForm = ({addConversation}) => {
     const [conversation, setConversation] = useState('')
     const [error, setError] = useState(false);
+    const [user] = useContext(UserContext)
  
     const handleChange =(event) =>{
         const {value} = event.target 
@@ -18,7 +20,7 @@ const SendThreadForm = ({addConversation}) => {
           setError(true)
         }
         else{
-          addConversation(conversation)
+          addConversation(user.firstname,user.lastname,user.email,conversation)
         setConversation('')
         }
         

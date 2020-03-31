@@ -1,4 +1,4 @@
-import React, { createRef, useEffect } from "react";
+import React, { createRef, useEffect,useContext } from "react";
 import Conversation from "./Conversation";
 import {
   Card,
@@ -7,6 +7,7 @@ import {
   Typography,
   makeStyles,
 } from "@material-ui/core";
+import {UserContext} from "../ContextApi/UserContext"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,10 +26,12 @@ const useStyles = makeStyles(theme => ({
 const ConversationList = ({
   conversations,
   editConversation,
-  delConversation
+  delConversation,
+  message
 }) => {
   const classes = useStyles();
   let messagesEnd = createRef();
+  const [user] = useContext(UserContext)
   const scrollToBottom = () => {
     messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
@@ -40,15 +43,16 @@ const ConversationList = ({
     <div>
       <Card className={classes.root}>
         <Typography variant="h5" className={classes.title}>
-          Conversations
+         Topic: {message}
         </Typography>
         <CardContent>
           {conversations.map((conversation, index) => (
             <div key={index}>
-              <Typography variant="caption">Amir Dambatta</Typography>
+              <Typography variant="caption">{conversation.firstname} {conversation.lastname}</Typography>
               <Conversation
                 editConversation={editConversation}
                 conversation={conversation.text}
+                email ={conversation.email}
                 delConversation={delConversation}
                 index={index}
               />

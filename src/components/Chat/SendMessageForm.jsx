@@ -1,13 +1,15 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import {OutlinedInput,FormControl,InputLabel} from "@material-ui/core"
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
+import {UserContext} from "../ContextApi/UserContext"
 
 const SendMessageForm = ({addMessage}) => {
     const [message, setMessage] = useState('')
     const [chosenEmoji, setChosenEmoji] = useState('')
     const [showEmoji, setShowEmoji] = useState(false)
     const [error, setError] = useState(false);
+    const [user] = useContext(UserContext)
 
     const EmojiOn =() =>{
       setShowEmoji(!showEmoji)
@@ -30,7 +32,7 @@ const SendMessageForm = ({addMessage}) => {
         }
         else{
           setError(false)
-          addMessage(message)
+          addMessage(user.firstname,user.lastname,user.email,message)
           setMessage('')
          
         }

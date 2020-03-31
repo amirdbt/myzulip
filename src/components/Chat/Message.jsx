@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import {
   Card,
   CardContent,
@@ -24,6 +24,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { Picker } from "emoji-mart";
 import ConversationList from "./ConversationList";
 import SendThreadForm from "./SendThreadForm";
+import {UserContext} from "../ContextApi/UserContext"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -54,26 +55,36 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Message = ({ message, delMessage, index, editMessage }) => {
+const Message = ({ message, delMessage, index, editMessage ,email}) => {
   const [open, setOpen] = useState(false);
   const [openD, setOpenD] = useState(false);
   const [text, setText] = useState("");
+  const [user] = useContext(UserContext)
   const [chosenEmoji, setChosenEmoji] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
   const [conversations, setConversations] = useState([
     {
+      firstname: "Amir",
+      lastname: "Dambatta",
+      email: "ahmedhassan007873@gmail.com",   
       text: "Hey, how is it going?"
     },
     {
+      firstname: "Sadiq",
+      lastname: "Dambatta",
+      email: "sadd@yahoo.com",
       text: "Great! How about you?"
     },
     {
+      firstname: "Cristiano",
+      lastname: "Ronaldo",
+      email: "yuyu@yahoo.com",
       text: "Good to hear! I am great as well"
     }
   ]);
-  const editConversation = (index, text) => {
+  const editConversation = (index,firstname,lastname,email, text) => {
     const newConversations = [...conversations];
-    newConversations.splice(index, 1, { text });
+    newConversations.splice(index, 1, {firstname,lastname,email, text });
     setConversations(newConversations);
   };
   const delConversation = index => {
@@ -82,8 +93,8 @@ const Message = ({ message, delMessage, index, editMessage }) => {
     setConversations(newConversations);
   };
 
-  const addConversation = text => {
-    const newConversations = [...conversations, { text }];
+  const addConversation = (firstname,lastname,email,text) => {
+    const newConversations = [...conversations, { firstname,lastname,email,text }];
     setConversations(newConversations);
   };
   const EmojiOn = () => {
@@ -103,7 +114,7 @@ const Message = ({ message, delMessage, index, editMessage }) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    editMessage(index, text);
+    editMessage(index,user.firstname,user.lastname,user.email, text);
     setText("");
     handleClose();
     // console.log(text);
@@ -124,6 +135,7 @@ const Message = ({ message, delMessage, index, editMessage }) => {
   const classes = useStyles();
   return (
     <Card className={classes.card}>
+         
       <CardContent>
         <div className={classes.root}>
           <Typography className={classes.ty}> {message}</Typography>
@@ -160,14 +172,18 @@ const Message = ({ message, delMessage, index, editMessage }) => {
                 delConversation={delConversation}
                 editConversation={editConversation}
                 conversations={conversations}
+                message={message}
               />
               <SendThreadForm addConversation={addConversation} />
             </Dialog>
-            <Tooltip title="Edit Message" arrow>
-              <IconButton onClick={handleClickOpen}>
-                <Edit />
-              </IconButton>
-            </Tooltip>
+            { user.email === email ? (
+               <Tooltip title="Edit Message" arrow>
+               <IconButton onClick={handleClickOpen}>
+                 <Edit />
+               </IconButton>
+             </Tooltip>
+            ) : <div></div>}
+           
             <Dialog
               open={open}
               onClose={handleClose}
@@ -218,15 +234,20 @@ const Message = ({ message, delMessage, index, editMessage }) => {
                 </Button>
               </DialogActions>
             </Dialog>
-            <Tooltip title="Delete Message" arrow>
-              <IconButton
-                onClick={() => {
-                  delMessage(index);
-                }}
-              >
-                <Delete />
-              </IconButton>
-            </Tooltip>
+            {user.email === email ? (
+                 <Tooltip title="Delete Message" arrow>
+                 <IconButton
+                   onClick={() => {
+                     delMessage(index);
+                   }}
+                 >
+                   <Delete />
+                 </IconButton>
+               </Tooltip>
+            ): (
+              <div></div>
+            )}
+           
           </div>
         </div>
       </CardContent>

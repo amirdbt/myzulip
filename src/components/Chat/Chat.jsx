@@ -14,12 +14,21 @@ const Chat = () => {
   let history = useHistory()
   const [messages, setMessages] = useState([
     {
+      firstname: "Amir",
+      lastname: "Dambatta",
+      email: "ahmedhassan007873@gmail.com",   
       text: "Hey, how is it going?"
     },
     {
+      firstname: "Sadiq",
+      lastname: "Dambatta",
+      email: "sadd@yahoo.com",
       text: "Great! How about you?"
     },
     {
+      firstname: "Cristiano",
+      lastname: "Ronaldo",
+      email: "yuyu@yahoo.com",
       text: "Good to hear! I am great as well"
     }
   ]);
@@ -34,8 +43,8 @@ const Chat = () => {
   
   ]);
 
-  const addMessage = text => {
-    const newMessages = [...messages, { text }];
+  const addMessage = (firstname,lastname,email,text) => {
+    const newMessages = [...messages, { firstname,lastname,email,text }];
     setMessages(newMessages);
   };
 
@@ -45,9 +54,9 @@ const Chat = () => {
     setMessages(newMessages);
   };
 
-  const editMessage = (index, text) => {
+  const editMessage = (index, firstname,lastname,email,text) => {
     const newMessages = [...messages];
-    newMessages.splice(index, 1, { text });
+    newMessages.splice(index, 1, { firstname,lastname,email,text });
     setMessages(newMessages);
   };
 
