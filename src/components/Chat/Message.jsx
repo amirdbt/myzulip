@@ -50,6 +50,10 @@ const useStyles = makeStyles(theme => ({
     marginLeft: theme.spacing(2),
     flex: 1,
     textAlign: "center"
+  },
+  em: {
+    marginTop: "-40px",
+    marginRight: "30px"
   }
 }));
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -211,13 +215,12 @@ const Message = ({ message, delMessage, index, editMessage ,email}) => {
                 <span>
                   {showEmoji ? (
                     <Card style={styles.emojiPicker}>
-                      {" "}
                       <Picker onSelect={onEmojiClick} title="MyZulip" />
                     </Card>
                   ) : (
                     <div></div>
                   )}
-                  <p style={styles.getEmojiButton} onClick={EmojiOn}>
+                  <p style={styles.getEmojiButton}  onClick={EmojiOn}>
                     {String.fromCodePoint(0x1f60a)}
                   </p>
                 </span>
@@ -265,7 +268,7 @@ const styles = {
   getEmojiButton: {
     cssFloat: "right",
     border: "solid",
-    margin: 0,
+    marginRight: "-40px",
     cursor: "pointer",
     bottom: 10
   },

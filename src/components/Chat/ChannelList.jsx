@@ -1,25 +1,15 @@
-import React, { useState, useContext} from "react";
+import React, { useContext } from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
-import { Chat, Room, MoreVert } from "@material-ui/icons";
+import { Chat, Room } from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
-import {
-  Divider,
-  Menu,
-  MenuItem,
-  IconButton,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Button,
-  TextField
-} from "@material-ui/core";
-import {ChannelsContext} from "../ContextApi/ChannelsContext"
+import { Divider } from "@material-ui/core";
+import { ChannelsContext } from "../ContextApi/ChannelsContext";
+import Channel from "./Channel";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -44,38 +34,13 @@ const useStyles = makeStyles(theme => ({
 }));
 const ChannelList = () => {
   const classes = useStyles();
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [open, setOpen] = useState(false);
-  const [text, setText] = useState("");
-  const [channels, setChannels, addChannel, delChannel,editChannel] = useContext(ChannelsContext)
-  const handleChange = event => {
-    const { value } = event.target;
-    setText(value);
-    // console.log(value);
-  };
-
-  const handleSubmit = event => {
-    event.preventDefault();
-    // editChannel(index, text);
-    setText("");
-    dialogClose();
-    // console.log(text);
-  };
-
-  const handleClick = event => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const dialogOpen = () => {
-    setOpen(true);
-  };
-  const dialogClose = () => {
-    setOpen(false);
-  };
+  const [
+    channels,
+    setChannels,
+    addChannel,
+    delChannel,
+    editChannel
+  ] = useContext(ChannelsContext);
 
   return (
     <div className={classes.root}>
@@ -97,70 +62,7 @@ const ChannelList = () => {
       <Divider />
       {channels.map((channel, index) => (
         <>
-          <List key={index}>
-            <ListItem button>
-              <ListItemIcon>
-                <IconButton onClick={handleClick}>
-                  <MoreVert />
-                </IconButton>
-              </ListItemIcon>
-              <ListItemText>{channel.name}</ListItemText>
-            </ListItem>
-          </List>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
-          >
-            <MenuItem onClick={dialogOpen}>Edit</MenuItem>
-            <Dialog
-              open={open}
-              onClose={dialogClose}
-              aria-labelledby="edit-channel"
-            >
-              <DialogTitle id="edit-channel">Edit Channel</DialogTitle>
-              <DialogContent>
-                <form onSubmit={handleSubmit}>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="message"
-                    label="Message"
-                    type="text"
-                    value={text}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </form>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  onClick={dialogClose}
-                  color="primary"
-                  variant="outlined"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  color="primary"
-                  onClick={handleSubmit}
-                  variant="outlined"
-                >
-                  Submit
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <MenuItem
-              onClick={() => {
-                delChannel(index);
-                handleClose();
-              }}
-            >
-              Delete
-            </MenuItem>
-          </Menu>
+          <Channel channel={channel} index={index} />
         </>
       ))}
     </div>
