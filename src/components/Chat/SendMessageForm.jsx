@@ -7,6 +7,7 @@ const SendMessageForm = ({addMessage}) => {
     const [message, setMessage] = useState('')
     const [chosenEmoji, setChosenEmoji] = useState('')
     const [showEmoji, setShowEmoji] = useState(false)
+    const [error, setError] = useState(false);
 
     const EmojiOn =() =>{
       setShowEmoji(!showEmoji)
@@ -23,8 +24,15 @@ const SendMessageForm = ({addMessage}) => {
     }
     const handleSubmit = event =>{
         event.preventDefault()
-        addMessage(message)
-        setMessage('')
+        if(message === "")
+        {
+          setError(true)
+        }
+        else{
+          addMessage(message)
+          setMessage('')
+        }
+        
     }
 
     return (
@@ -32,7 +40,7 @@ const SendMessageForm = ({addMessage}) => {
       <form onSubmit={handleSubmit}>
           <FormControl fullWidth variant="outlined">
                 <InputLabel htmlFor="message">Send Message</InputLabel>
-                <OutlinedInput id="message" value={message} onChange={handleChange} labelWidth={60} />
+                <OutlinedInput id="message" error={error} value={message} onChange={handleChange} labelWidth={60} />
           </FormControl>
       </form>
       <span>

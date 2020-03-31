@@ -10,7 +10,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Button
+  Button,
+  Tooltip
 } from "@material-ui/core";
 import { Delete, Edit } from "@material-ui/icons";
 import CommentIcon from '@material-ui/icons/Comment';
@@ -77,12 +78,16 @@ const Message = ({ message, delMessage, index,editMessage }) => {
         <div className={classes.root}>
           <Typography className={classes.ty}> {message}</Typography>
           <div className={classes.icons}>
+            <Tooltip title="Start Conversation" arrow>
             <IconButton>
               <CommentIcon />
             </IconButton>
+            </Tooltip>
+            <Tooltip title="Edit Message" arrow>
             <IconButton onClick={handleClickOpen}>
               <Edit  />
             </IconButton>
+            </Tooltip>
             <Dialog  open={open} onClose={handleClose} aria-labelledby="edit-form">
                 <DialogTitle id="edit-form">
                     Edit Message
@@ -116,9 +121,11 @@ const Message = ({ message, delMessage, index,editMessage }) => {
                     <Button  color="primary" onClick={handleSubmit} variant="outlined">Submit</Button>
                 </DialogActions>
             </Dialog>
+            <Tooltip title="Delete Message" arrow>
             <IconButton onClick={()=>{delMessage(index)}}>
               <Delete />
             </IconButton>
+            </Tooltip>
           </div>
         </div>
       </CardContent>
