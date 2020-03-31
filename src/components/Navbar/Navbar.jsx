@@ -159,7 +159,7 @@ const Navbar = () => {
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Link className={classes.link1} to="/chat">
+            <Link className={classes.link1} to={`/chat/${0}`}>
               <Tooltip title="MyZulip Channels" arrow>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge color="secondary">

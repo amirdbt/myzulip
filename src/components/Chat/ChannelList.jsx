@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState, useContext} from "react";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -19,6 +19,7 @@ import {
   Button,
   TextField
 } from "@material-ui/core";
+import {ChannelsContext} from "../ContextApi/ChannelsContext"
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -41,11 +42,12 @@ const useStyles = makeStyles(theme => ({
     color: "white"
   }
 }));
-const ChannelList = ({ channels, delChannel, editChannel }) => {
+const ChannelList = () => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
+  const [channels, setChannels, addChannel, delChannel,editChannel] = useContext(ChannelsContext)
   const handleChange = event => {
     const { value } = event.target;
     setText(value);

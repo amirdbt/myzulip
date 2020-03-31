@@ -4,7 +4,7 @@ import Message from "./Message";
 import { useHistory } from "react-router-dom";
 import CloseIcon from "@material-ui/icons/Close"
 import {UsersContext} from "../ContextApi/UsersContext"
-import {UserContext} from "../ContextApi/UserContext"
+import {MessagesContext} from "../ContextApi/MessagesContext"
 
 const useStyles = makeStyles(theme =>({
   root: {
@@ -30,13 +30,15 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const MessageList = ({ messages, delMessage, editMessage }) => {
+const MessageList = () => {
   const [users, setUsers, isLoading] = useContext(UsersContext);
-  const [user] = useContext(UserContext);
+  const [messages,addMessage,delMessage,editMessage] = useContext(MessagesContext)
+ 
   const classes = useStyles();
   let history = useHistory();
   let index = history.location.pathname.lastIndexOf("/");
   let path = history.location.pathname.slice(index + 1);
+  console.log(messages);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -68,8 +70,8 @@ const MessageList = ({ messages, delMessage, editMessage }) => {
               <Typography variant="h6" className={classes.title}>Click on a user to add to channel</Typography>
           </Toolbar>
         </AppBar>
-        {users.map(user => (
-          <List>
+        {users.map((user,index) => (
+          <List key={index}>
           <ListItem button>
             <ListItemText primary={user.firstname} secondary={user.lastname} />
           </ListItem>
@@ -80,20 +82,28 @@ const MessageList = ({ messages, delMessage, editMessage }) => {
       
       </Dialog>
         <CardContent>
-          {messages.map((message, index) => {
+          {  messages.map((message, index) => {
             return (
               <div key={index}>
-                <Typography variant="subtitle2">{message.firstname} {message.lastname}</Typography>
+                {message.channelid == path ? (
+                  <>
+                    <Typography variant="subtitle2">{message.firstname} {message.lastname}</Typography>
                 <Message
                   delMessage={delMessage}
                   editMessage={editMessage}
                   message={message.text}
                   email ={message.email}
                   index={index}
-                />
+                  path={path}
+                /> </>
+                ) :( <div></div>)
+              }
+               
               </div>
             );
-          })}
+          })
+
+          }
           <div
             style={{
               float: "left",

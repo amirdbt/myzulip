@@ -4,106 +4,37 @@ import NewChannel from "./NewChannel";
 import MessageList from "./MessageList";
 import SendMessageForm from "./SendMessageForm";
 import { Grid } from "@material-ui/core";
-import Navbar from "../Navbar/Navbar"
-import {useHistory} from "react-router-dom"
-import {getJwt} from "../../helpers/jwt"
-
+import Navbar from "../Navbar/Navbar";
+import { useHistory } from "react-router-dom";
+import { getJwt } from "../../helpers/jwt";
 
 const Chat = () => {
-  const token = getJwt()
-  let history = useHistory()
-  const [messages, setMessages] = useState([
-    {
-      firstname: "Amir",
-      lastname: "Dambatta",
-      email: "ahmedhassan007873@gmail.com",   
-      text: "Hey, how is it going?"
-    },
-    {
-      firstname: "Sadiq",
-      lastname: "Dambatta",
-      email: "sadd@yahoo.com",
-      text: "Great! How about you?"
-    },
-    {
-      firstname: "Cristiano",
-      lastname: "Ronaldo",
-      email: "yuyu@yahoo.com",
-      text: "Good to hear! I am great as well"
-    }
-  ]);
+  const token = getJwt();
+  let history = useHistory();
 
-  const [channels, setChannels] = React.useState([
-    {
-      name: "bugs"
-    },
-    {
-      name: "general"
-    },
-  
-  ]);
-
-  const addMessage = (firstname,lastname,email,text) => {
-    const newMessages = [...messages, { firstname,lastname,email,text }];
-    setMessages(newMessages);
-  };
-
-  const delMessage = index => {
-    const newMessages = [...messages];
-    newMessages.splice(index, 1);
-    setMessages(newMessages);
-  };
-
-  const editMessage = (index, firstname,lastname,email,text) => {
-    const newMessages = [...messages];
-    newMessages.splice(index, 1, { firstname,lastname,email,text });
-    setMessages(newMessages);
-  };
-
-  const addChannel = name => {
-    const newChannel = [...channels, { name }];
-    setChannels(newChannel);
-  };
-
-  const delChannel = index => {
-    const newChannels = [...channels];
-    newChannels.splice(index, 1);
-    setChannels(newChannels);
-  };
-
-    const editChannel = (index,name) =>{
-      const newChannels = [...channels]
-      newChannels.splice(index,1,{name})
-      setChannels(newChannels)
-    }
   return (
     <div>
-    {
-      token ? (<div>  <Navbar />
-        <Grid container justify="center">
-          <Grid item xs={12}>
-            <Grid container>
-              <Grid item xs={2}>
-                <ChannelList editChannel={editChannel} delChannel={delChannel} channels={channels} />
-                <NewChannel addChannel={addChannel} />
+      {token ? (
+        <div>
+          <Navbar />
+          <Grid container justify="center">
+            <Grid item xs={12}>
+              <Grid container>
+                <Grid item xs={2}>
+                  <ChannelList />
+                  <NewChannel />
+                </Grid>
+                <Grid item xs={10}>
+                  <MessageList />
+                  <SendMessageForm />
+                </Grid>
               </Grid>
-              <Grid item xs={10}>
-                <MessageList
-                  editMessage={editMessage}
-                  delMessage={delMessage}
-                  messages={messages}
-                />
-                <SendMessageForm addMessage={addMessage} />
-              </Grid>
-  
             </Grid>
           </Grid>
-        </Grid>
         </div>
-        ): (
-          history.push("/signin")
-        )
-    }
+      ) : (
+        history.push("/signin")
+      )}
     </div>
   );
 };

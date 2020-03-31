@@ -25,6 +25,7 @@ import { Picker } from "emoji-mart";
 import ConversationList from "./ConversationList";
 import SendThreadForm from "./SendThreadForm";
 import {UserContext} from "../ContextApi/UserContext"
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -62,6 +63,10 @@ const Message = ({ message, delMessage, index, editMessage ,email}) => {
   const [user] = useContext(UserContext)
   const [chosenEmoji, setChosenEmoji] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
+  let history = useHistory();
+  let val = history.location.pathname.lastIndexOf("/");
+  let path = history.location.pathname.slice(val + 1);
+  
   const [conversations, setConversations] = useState([
     {
       firstname: "Amir",
@@ -114,7 +119,7 @@ const Message = ({ message, delMessage, index, editMessage ,email}) => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    editMessage(index,user.firstname,user.lastname,user.email, text);
+    editMessage(index,path,user.firstname,user.lastname,user.email, text);
     setText("");
     handleClose();
     // console.log(text);

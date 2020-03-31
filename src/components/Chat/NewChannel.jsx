@@ -1,9 +1,11 @@
-import React from "react";
+import React,{useContext} from "react";
 import TextField from "@material-ui/core/TextField";
 import { Grid } from "@material-ui/core";
+import {ChannelsContext} from "../ContextApi/ChannelsContext"
 
-const NewChannel = ({addChannel}) => {
+const NewChannel = () => {
     const [channel,setChannel] = React.useState('')
+    const [channels, setChannels, addChannel, delChannel,editChannel] = useContext(ChannelsContext)
 
     const handleChange =(event)=>{
         const {value} = event.target
