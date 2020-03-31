@@ -7,24 +7,12 @@ import { Grid } from "@material-ui/core";
 import Navbar from "../Navbar/Navbar"
 import {useHistory} from "react-router-dom"
 import {getJwt} from "../../helpers/jwt"
-import ConversationList from "./ConversationList"
-import SendThreadForm from "./SendThreadForm"
+
 
 const Chat = () => {
   const token = getJwt()
   let history = useHistory()
   const [messages, setMessages] = useState([
-    {
-      text: "Hey, how is it going?"
-    },
-    {
-      text: "Great! How about you?"
-    },
-    {
-      text: "Good to hear! I am great as well"
-    }
-  ]);
-  const [conversations, setConversations] = useState([
     {
       text: "Hey, how is it going?"
     },
@@ -79,21 +67,6 @@ const Chat = () => {
       newChannels.splice(index,1,{name})
       setChannels(newChannels)
     }
-    const editConversation = (index, text) => {
-      const newConversations = [...conversations];
-      newConversations.splice(index, 1, { text });
-      setConversations(newConversations);
-    };
-    const delConversation = index => {
-      const newConversations = [...conversations];
-      newConversations.splice(index, 1);
-      setConversations(newConversations);
-    };
-  
-    const addConversation = text => {
-      const newConversations = [...conversations, { text }];
-      setConversations(newConversations);
-    };
   return (
     <div>
     {
@@ -105,7 +78,7 @@ const Chat = () => {
                 <ChannelList editChannel={editChannel} delChannel={delChannel} channels={channels} />
                 <NewChannel addChannel={addChannel} />
               </Grid>
-              <Grid item xs={8}>
+              <Grid item xs={10}>
                 <MessageList
                   editMessage={editMessage}
                   delMessage={delMessage}
@@ -113,10 +86,7 @@ const Chat = () => {
                 />
                 <SendMessageForm addMessage={addMessage} />
               </Grid>
-              <Grid item xs={2}>
-                  <ConversationList delConversation={delConversation} editConversation={editConversation} conversations={conversations}  />
-                  <SendThreadForm addConversation={addConversation} />
-              </Grid>
+  
             </Grid>
           </Grid>
         </Grid>

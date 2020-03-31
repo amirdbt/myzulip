@@ -29,8 +29,10 @@ const SendMessageForm = ({addMessage}) => {
           setError(true)
         }
         else{
+          setError(false)
           addMessage(message)
           setMessage('')
+         
         }
         
     }

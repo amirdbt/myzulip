@@ -6,7 +6,6 @@ import {
   CardContent,
   Typography,
   makeStyles,
-  Slide
 } from "@material-ui/core";
 
 const useStyles = makeStyles(theme => ({
@@ -22,9 +21,6 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
 
 const ConversationList = ({
   conversations,

@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import {
   Card,
   CardContent,
@@ -15,7 +15,7 @@ import {
   Menu,
   MenuItem
 } from "@material-ui/core";
-import { MoreVert } from "@material-ui/icons";
+import { MoreVert, Delete, Edit } from "@material-ui/icons";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,7 +35,12 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Conversation = ({ conversation,editConversation,index ,delConversation}) => {
+const Conversation = ({
+  conversation,
+  editConversation,
+  index,
+  delConversation
+}) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
@@ -75,66 +80,51 @@ const Conversation = ({ conversation,editConversation,index ,delConversation}) =
         <div className={classes.root}>
           <Typography className={classes.ty}>{conversation}</Typography>
           <div className={classes.icons}>
-              <Tooltip title="More Actions" arrow>
-            <IconButton  onClick={handleClick}>
-              <MoreVert />
-            </IconButton>
+            <Tooltip title="Edit" arrow>
+              <IconButton onClick={dialogOpen}>
+                <Edit />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete" arrow>
+              <IconButton
+                onClick={() => {
+                  delConversation(index);
+                }}
+              >
+                <Delete />
+              </IconButton>
             </Tooltip>
           </div>
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            keepMounted
-            open={Boolean(anchorEl)}
-            onClose={handleClose}
+
+          <Dialog
+            open={open}
+            onClose={dialogClose}
+            aria-labelledby="edit-channel"
           >
-            <MenuItem onClick={dialogOpen}>Edit</MenuItem>
-            <Dialog
-              open={open}
-              onClose={dialogClose}
-              aria-labelledby="edit-channel"
-            >
-              <DialogTitle id="edit-channel">Edit Conversation</DialogTitle>
-              <DialogContent>
-                <form onSubmit={handleSubmit}>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="message"
-                    label="Message"
-                    type="text"
-                    value={text}
-                    onChange={handleChange}
-                    fullWidth
-                  />
-                </form>
-              </DialogContent>
-              <DialogActions>
-                <Button
-                  onClick={dialogClose}
-                  color="primary"
-                  variant="outlined"
-                >
-                  Cancel
-                </Button>
-                <Button
-                  color="primary"
-                  onClick={handleSubmit}
-                  variant="outlined"
-                >
-                  Submit
-                </Button>
-              </DialogActions>
-            </Dialog>
-            <MenuItem
-              onClick={() => {
-                delConversation(index)
-                handleClose();
-              }}
-            >
-              Delete
-            </MenuItem>
-          </Menu>
+            <DialogTitle id="edit-channel">Edit Conversation</DialogTitle>
+            <DialogContent>
+              <form onSubmit={handleSubmit}>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="message"
+                  label="Message"
+                  type="text"
+                  value={text}
+                  onChange={handleChange}
+                  fullWidth
+                />
+              </form>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={dialogClose} color="primary" variant="outlined">
+                Cancel
+              </Button>
+              <Button color="primary" onClick={handleSubmit} variant="outlined">
+                Submit
+              </Button>
+            </DialogActions>
+          </Dialog>
         </div>
       </CardContent>
     </Card>
