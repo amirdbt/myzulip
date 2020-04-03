@@ -9,6 +9,7 @@ export const ChannelsProvider = props => {
   const [channel, setChannel] = useState({});
   const [error, setError] = useState("");
   const [mess, setMess] = useState("");
+  const [clink, setClink] = useState("");
   const [err, setErr] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const token = getJwt();
@@ -22,7 +23,8 @@ export const ChannelsProvider = props => {
     axios
       .post("https://banana-crumble-17466.herokuapp.com/channel/all")
       .then(res => {
-        console.log(res.data.message);
+        console.log(res.data.message[0]._id);
+        setClink(res.data.message[0]._id)
         setChannels(res.data.message);
         setIsLoading(false);
       });
@@ -95,7 +97,8 @@ export const ChannelsProvider = props => {
         error,
         err,
         mess,
-        isLoading
+        isLoading,
+        clink
       ]}
     >
       {props.children}

@@ -14,6 +14,7 @@ import { People } from "@material-ui/icons";
 import { Link } from "react-router-dom";
 import { UsersContext } from "../ContextApi/UsersContext";
 import Tooltip from "@material-ui/core/Tooltip";
+import {ChannelsContext} from "../ContextApi/ChannelsContext"
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -57,6 +58,19 @@ const Navbar = () => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [users] = useContext(UsersContext);
+  const [ channels,
+    setChannels,
+    addChannel,
+    delChannel,
+    editChannel,
+    getChannel,
+    channel,
+    addUser,
+    error,
+    err,
+    mess,
+    isLoading,
+    clink] = useContext(ChannelsContext);
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
@@ -159,7 +173,7 @@ const Navbar = () => {
 
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Link className={classes.link1} to={`/chat/${0}`}>
+            <Link className={classes.link1} to={`/chat/${clink}`}>
               <Tooltip title="MyZulip Channels" arrow>
               <IconButton aria-label="show 4 new mails" color="inherit">
                 <Badge color="secondary">
