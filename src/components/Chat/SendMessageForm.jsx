@@ -39,7 +39,7 @@ const SendMessageForm = () => {
       setError(true);
     } else {
       setError(false);
-      addMessage(path, user.firstname, user.lastname, user.email, message);
+      addMessage(message,user._id,path);
       setMessage("");
     }
   };

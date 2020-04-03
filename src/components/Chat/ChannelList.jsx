@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import { Divider } from "@material-ui/core";
 import { ChannelsContext } from "../ContextApi/ChannelsContext";
 import Channel from "./Channel";
+import CircularProgress from "@material-ui/core/CircularProgress";
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,10 +38,17 @@ const ChannelList = () => {
   const classes = useStyles();
   const [
     channels,
-    setChannels,
-    addChannel,
-    delChannel,
-    editChannel
+        setChannels,
+        addChannel,
+        delChannel,
+        editChannel,
+        getChannel,
+        channel,
+        addUser,
+        error,
+        err,
+        mess,
+        isLoading
   ] = useContext(ChannelsContext);
 
   return (
@@ -47,14 +56,14 @@ const ChannelList = () => {
       <Typography className={classes.title} variant="h5">
         <Room className={classes.room} /> Channels
       </Typography>
-      {channels.map((channel, index) => (
-        <Link className={classes.link} to={`/chat/${index}`}>
-          <List key={index}>
+      {isLoading ? <CircularProgress color="secondary" /> :  channels.map((channel, index) => (
+        <Link className={classes.link} to={`/chat/${channel._id}`}>
+          <List key={channel._id}>
             <ListItem button>
               <ListItemIcon>
                 <Chat />
               </ListItemIcon>
-              <ListItemText>{channel.name}</ListItemText>
+              <ListItemText>{channel.title}</ListItemText>
             </ListItem>
           </List>
         </Link>
@@ -62,7 +71,7 @@ const ChannelList = () => {
       <Divider />
       {channels.map((channel, index) => (
         <>
-          <Channel channel={channel} index={index} />
+          <Channel channel={channel} mess={mess} index={index} />
         </>
       ))}
     </div>

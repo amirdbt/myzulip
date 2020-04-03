@@ -10,12 +10,10 @@ import {
   Typography,
   LinearProgress,
   Avatar,
-  IconButton,
   Tooltip
 } from "@material-ui/core";
-import { PhotoCamera } from "@material-ui/icons";
 import { UserContext } from "../ContextApi/UserContext";
-import PersonAddDisabledIcon from '@material-ui/icons/PersonAddDisabled';
+
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -44,7 +42,7 @@ const UserDashboard = props => {
   const { className, ...rest } = props;
   const classes = useStyles();
   const [count, setCount] = useState(50);
-  const [user, removePicture] = useContext(UserContext);
+  const [user,setUser,updateUser,deleteUser] = useContext(UserContext);
 
   useEffect(() => {
     checkPogress();
@@ -89,7 +87,7 @@ const UserDashboard = props => {
             </Typography>
           </div>
 
-          <Avatar className={classes.avatar} src={user.img} />
+          <Avatar className={classes.avatar} />
         </div>
         <div className={classes.progress}>
           <Typography variant="body1">
@@ -100,32 +98,10 @@ const UserDashboard = props => {
       </CardContent>
       <Divider />
       <CardActions>
-        <input
-          accept="image/*"
-          id="icon-button-file"
-          className={classes.input}
-          type="file"
-        />
-        <label htmlFor="icon-button-file">
-          <Tooltip title="Add Image" arrow>
-          <IconButton
-            color="primary"
-            aria-label="upload picture"
-            component="span"
-          >
-            <PhotoCamera />
-          </IconButton>
-          </Tooltip>
-        </label>
-        <Tooltip title="Remove Picture" arrow>
-        <Button variant="text" onClick={removePicture}>
-          Remove picture
-        </Button>
-        </Tooltip>
+  
         <Tooltip title="Deactivate Account" arrow>
-        <IconButton>
-          <PersonAddDisabledIcon />
-        </IconButton>
+        <Button variant="contained" color="secondary" onClick={()=>{if(window.confirm('Are you sure you want to deactivate your account?')) deleteUser()}}>Deactivate Account</Button>
+      
         </Tooltip>
       </CardActions>
     </Card>

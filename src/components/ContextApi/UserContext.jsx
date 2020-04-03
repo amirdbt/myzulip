@@ -1,35 +1,40 @@
 import React, { useState, createContext,useEffect } from "react";
+import axios from "axios"
 import {getJwt} from "../../helpers/jwt"
-export const UserContext = createContext();
+import {useHistory} from "react-router-dom"
 
+export const UserContext = createContext();
 export const UserProvider = props => {
   const [user,setUser] = useState({})
-
-
-
       const token = getJwt()
     useEffect(()=>{
         fetchUser()
     },[])
-    const fetchUser =async () =>{
-      const response = await fetch(`http://localhost:3001/users/${token}`)
-      const data = await response.json()
-      console.log(data);
-      setUser(data)
+    const fetchUser = () =>{
+      axios.get(`https://banana-crumble-17466.herokuapp.com/users/user/${token}`)
+        .then(res => {
+          console.log(res.data.message)
+          setUser(res.data.message)
+        })
     }
       const updateUser =(phone,state,country)=>{
-          setUser({
-              ...user,
+          axios.put(`https://banana-crumble-17466.herokuapp.com/users/user/${token}`,{
+              country,
               phone,
-              state,
-              country
+              state
           })
+          .then(res => console.log(res))
       
     }
-    const removePicture = () => {
-        setUser({...user,img: null})
-   
-      };
+    let history = useHistory()
+    const deleteUser =() =>{
+      axios.delete(`https://banana-crumble-17466.herokuapp.com/users/user/${token}`)
+      .then(res => {
+        console.log(res)
+        history.push("/")
+      })
+    }
+  
 
-  return <UserContext.Provider value={[user,setUser,updateUser,removePicture]}>{props.children}</UserContext.Provider>;
+  return <UserContext.Provider value={[user,setUser,updateUser,deleteUser]}>{props.children}</UserContext.Provider>;
 };

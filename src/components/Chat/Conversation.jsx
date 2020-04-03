@@ -15,6 +15,7 @@ import {
 } from "@material-ui/core";
 import { Delete, Edit } from "@material-ui/icons";
 import { UserContext } from "../ContextApi/UserContext";
+import { Alert } from "@material-ui/lab";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -38,8 +39,9 @@ const Conversation = ({
   conversation,
   editConversation,
   index,
-  delConversation,
-  email
+  deleteConversation,
+  userCon,
+  mess
 }) => {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = useState(null);
@@ -51,10 +53,9 @@ const Conversation = ({
     setText(value);
     // console.log(value);
   };
-
   const handleSubmit = event => {
     event.preventDefault();
-    editConversation(index, user.firstname, user.lastname, user.email, text);
+    editConversation(index, text);
     setText("");
     dialogClose();
     // console.log(text);
@@ -76,65 +77,76 @@ const Conversation = ({
   };
 
   return (
-    <Card className={classes.card}>
-      <CardContent>
-        <div className={classes.root}>
-          <Typography className={classes.ty}>{conversation}</Typography>
-          <div className={classes.icons}>
-            {user.email === email ? (
-              <>
-                <Tooltip title="Edit" arrow>
-                  <IconButton onClick={dialogOpen}>
-                    <Edit />
-                  </IconButton>
-                </Tooltip>
-                <Tooltip title="Delete" arrow>
-                  <IconButton
-                    onClick={() => {
-                      delConversation(index);
-                    }}
-                  >
-                    <Delete />
-                  </IconButton>
-                </Tooltip>
-              </>
-            ) : (
-              <div></div>
-            )}
-          </div>
+    <>
+      <Card className={classes.card}>
+        <CardContent>
+          <div className={classes.root}>
+            <Typography className={classes.ty}>{conversation}</Typography>
+            <div className={classes.icons}>
+              {user._id === userCon ? (
+                <>
+                  <Tooltip title="Edit" arrow>
+                    <IconButton onClick={dialogOpen}>
+                      <Edit />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="Delete" arrow>
+                    <IconButton
+                      onClick={() => {
+                        if (window.confirm("Are you sure?"))
+                          deleteConversation(index);
+                      }}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </Tooltip>
+                </>
+              ) : (
+                <div></div>
+              )}
+            </div>
 
-          <Dialog
-            open={open}
-            onClose={dialogClose}
-            aria-labelledby="edit-channel"
-          >
-            <DialogTitle id="edit-channel">Edit Conversation</DialogTitle>
-            <DialogContent>
-              <form onSubmit={handleSubmit}>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="message"
-                  label="Message"
-                  type="text"
-                  value={text}
-                  onChange={handleChange}
-                  fullWidth
-                />
-              </form>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={dialogClose} color="primary" variant="outlined">
-                Cancel
-              </Button>
-              <Button color="primary" onClick={handleSubmit} variant="outlined">
-                Submit
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </div>
-      </CardContent>
-    </Card>
+            <Dialog
+              open={open}
+              onClose={dialogClose}
+              aria-labelledby="edit-channel"
+            >
+              <DialogTitle id="edit-channel">Edit Conversation</DialogTitle>
+              <DialogContent>
+                <form onSubmit={handleSubmit}>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="message"
+                    label="Message"
+                    type="text"
+                    value={text}
+                    onChange={handleChange}
+                    fullWidth
+                  />
+                </form>
+              </DialogContent>
+              <DialogActions>
+                <Button
+                  onClick={dialogClose}
+                  color="primary"
+                  variant="outlined"
+                >
+                  Cancel
+                </Button>
+                <Button
+                  color="primary"
+                  onClick={handleSubmit}
+                  variant="outlined"
+                >
+                  Submit
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </div>
+        </CardContent>
+      </Card>
+    </>
   );
 };
 

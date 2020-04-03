@@ -1,9 +1,9 @@
 import React,{useState,useContext} from 'react'
-import {List,ListItem,ListItemIcon,Menu,MenuItem,Dialog,DialogContent,TextField,Button,IconButton,ListItemText,DialogTitle,DialogActions} from "@material-ui/core"
+import {List,ListItem,ListItemIcon,Menu,MenuItem,Dialog,DialogContent,TextField,Button,IconButton,ListItemText,DialogTitle,DialogActions,Snackbar} from "@material-ui/core"
 import {MoreVert} from "@material-ui/icons"
 import {ChannelsContext} from "../ContextApi/ChannelsContext"
-
-const Channel = ({channel,index}) => {
+import {Alert} from "@material-ui/lab"
+const Channel = ({channel,mess,index}) => {
     const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = useState(false);
   const [text, setText] = useState("");
@@ -16,12 +16,17 @@ const Channel = ({channel,index}) => {
       };
     const handleSubmit = event => {
         event.preventDefault();
-        editChannel(index, text);
+        editChannel(channel._id, text);
         setText("");
         dialogClose();
         handleClose()
         // console.log(text);
       };
+      const showSnackBar =()=> {
+      return  <Snackbar open={open} autoHideDuration={3000}>
+        <Alert severity="success">{mess}</Alert>
+      </Snackbar>
+      }
       
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -47,7 +52,7 @@ const Channel = ({channel,index}) => {
                   <MoreVert />
                 </IconButton>
               </ListItemIcon>
-              <ListItemText>{channel.name}</ListItemText>
+              <ListItemText>{channel.title}</ListItemText>
             </ListItem>
           </List>
           <Menu
@@ -97,7 +102,9 @@ const Channel = ({channel,index}) => {
             </Dialog>
             <MenuItem
               onClick={() => {
-                delChannel(index);
+                if(window.confirm("Are you sure?"))
+                delChannel(channel._id);
+                showSnackBar()
                 handleClose();
               }}
             >

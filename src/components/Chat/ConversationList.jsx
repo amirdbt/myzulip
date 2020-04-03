@@ -1,13 +1,8 @@
-import React, { createRef, useEffect,useContext } from "react";
+import React, { createRef, useEffect, useContext } from "react";
 import Conversation from "./Conversation";
-import {
-  Card,
-  CardActions,
-  CardContent,
-  Typography,
-  makeStyles,
-} from "@material-ui/core";
-import {UserContext} from "../ContextApi/UserContext"
+import { Card, CardContent, Typography, makeStyles } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import { UsersContext } from "../ContextApi/UsersContext";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,16 +17,18 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-
 const ConversationList = ({
   conversations,
   editConversation,
-  delConversation,
-  message
+  deleteConversation,
+  message,
+  conversation_id,
+  mess,
+  messAlert
 }) => {
   const classes = useStyles();
   let messagesEnd = createRef();
-  const [user] = useContext(UserContext)
+  const [users] = useContext(UsersContext);
   const scrollToBottom = () => {
     messagesEnd.scrollIntoView({ behavior: "smooth" });
   };
@@ -43,21 +40,35 @@ const ConversationList = ({
     <div>
       <Card className={classes.root}>
         <Typography variant="h5" className={classes.title}>
-         Topic: {message}
+          Topic: {message}
         </Typography>
+        {messAlert ? <Alert severity="success">{mess}</Alert> : <div></div>}
         <CardContent>
-          {conversations.map((conversation, index) => (
-            <div key={index}>
-              <Typography variant="caption">{conversation.firstname} {conversation.lastname}</Typography>
-              <Conversation
-                editConversation={editConversation}
-                conversation={conversation.text}
-                email ={conversation.email}
-                delConversation={delConversation}
-                index={index}
-              />
-            </div>
-          ))}
+          {conversations.length > 0 ? (
+            conversations.map((conversation, index) => (
+              <div key={index}>
+                {users.map((user, index) => {
+                  if (user._id === conversation.user) {
+                    return (
+                      <Typography variant="caption">
+                        {user.firstname} {user.lastname}
+                      </Typography>
+                    );
+                  }
+                })}
+                <Conversation
+                  index={conversation._id}
+                  editConversation={editConversation}
+                  conversation={conversation.msg}
+                  userCon={conversation.user}
+                  deleteConversation={deleteConversation}
+                  mess={mess}
+                />
+              </div>
+            ))
+          ) : (
+            <div></div>
+          )}
           <div
             style={{
               float: "left",

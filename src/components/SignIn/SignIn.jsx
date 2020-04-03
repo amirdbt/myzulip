@@ -58,16 +58,15 @@ const SignIn = () => {
       setErr("Fields can not be empty")
     } else {
       axios
-        .post("http://localhost:3001/users/login", {
-          email,
-          password
+        .post(" https://banana-crumble-17466.herokuapp.com/auth", {
+          password,
+          email
         })
-        .then(res => localStorage.setItem("token", res.data))
-        .catch(err => {
-          console.log(err.response.data.message);
+        .then(res => localStorage.setItem("token",res.data.message))
+        .catch(error => {
+          console.log(error.response.data);
           setError(true)
-          setErr(err.response.data.message)
-         
+          setErr(`${error.response.data}`)
         });
 
       history.push("/dashboard");

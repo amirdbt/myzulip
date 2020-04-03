@@ -8,25 +8,25 @@ import { Switch, Route } from "react-router-dom";
 import { UsersProvider } from "./components/ContextApi/UsersContext";
 import { UserProvider } from "./components/ContextApi/UserContext";
 import { ChannelsProvider } from "./components/ContextApi/ChannelsContext";
-import {MessagesProvider} from "./components/ContextApi/MessagesContext"
+import { MessagesProvider } from "./components/ContextApi/MessagesContext";
 
 function App() {
   return (
-    <UsersProvider>
-      <UserProvider>
-        <ChannelsProvider>
-          <MessagesProvider>
-          <Switch>
-            <Route exact path="/" component={SignUp} />
-            <Route path="/signin" component={SignIn} />
-            <Route exact path="/users" component={AllUsers} />
-            <Route path="/dashboard" component={User} />
-            <Route path="/chat/:id" component={Chat} />
-          </Switch>
-          </MessagesProvider>
-        </ChannelsProvider>
-      </UserProvider>
-    </UsersProvider>
+    <Switch>
+      <UsersProvider>
+        <UserProvider>
+          <ChannelsProvider>
+            <MessagesProvider>
+              <Route exact path="/" component={SignUp} />
+              <Route path="/signin" component={SignIn} />
+              <Route exact path="/users" component={AllUsers} />
+              <Route path="/dashboard" component={User} />
+              <Route path="/chat/:id" component={Chat} />
+            </MessagesProvider>
+          </ChannelsProvider>
+        </UserProvider>
+      </UsersProvider>
+    </Switch>
   );
 }
 

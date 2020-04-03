@@ -9,7 +9,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import { Link, useHistory } from "react-router-dom";
-import {Alert} from "@material-ui/lab"
+import { Alert } from "@material-ui/lab";
 import axios from "axios";
 
 const useStyles = makeStyles(theme => ({
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
   submit: {
     margin: theme.spacing(3, 0, 2)
   },
-  alert:{
+  alert: {
     marginTop: theme.spacing(2)
   }
 }));
@@ -42,7 +42,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-  const [err, setErr] = useState('');
+  const [err, setErr] = useState("");
   let history = useHistory();
 
   const onChangeFirstName = event => {
@@ -71,20 +71,20 @@ const SignUp = () => {
       password === ""
     ) {
       setError(true);
-      setErr("Fields can not be empty")
+      setErr("Fields can not be empty");
       history.push("/");
     } else {
       axios
-        .post("http://localhost:3001/users/register", {
+        .post("https://banana-crumble-17466.herokuapp.com/users", {
           firstname,
           lastname,
-          email,
-          password
+          password,
+          email
         })
-        .then(res => localStorage.setItem("token", res.data))
-        .catch(err => {
-          setError(true)
-          setErr(err.response.data.message)
+        .then(res => localStorage.setItem("token", res.data.message))
+        .catch(error => {
+          setError(true);
+          setErr(`${error.response.data}`);
         });
       history.push("/dashboard");
     }
@@ -93,7 +93,13 @@ const SignUp = () => {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
-      {error ? <Alert className={classes.alert} severity="error" variant="outlined">{err}</Alert> : <div></div> }
+      {error ? (
+        <Alert className={classes.alert} severity="error" variant="outlined">
+          {err}
+        </Alert>
+      ) : (
+        <div></div>
+      )}
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />

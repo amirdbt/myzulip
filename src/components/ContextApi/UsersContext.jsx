@@ -1,4 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
+import axios from "axios"
 
 export const UsersContext = createContext();
 
@@ -22,13 +23,23 @@ export const UsersProvider = props => {
     fetchusers();
   }, []);
 
-  const fetchusers = async () => {
+  const fetchusers = () => {
     setIsLoading(true);
-    const response = await fetch("http://localhost:3001/users");
-    const data = await response.json();
-    setUsers(data);
-    console.log(data);
-    setIsLoading(false);
+    axios.get("https://banana-crumble-17466.herokuapp.com/users/getall")
+    .then(res => {
+      console.log(res.data.message);
+      setUsers(res.data.message)
+      setIsLoading(false);
+    })
+   
   };
-  return <UsersContext.Provider value={[users,setUsers,isLoading,userRole,changeRole]}>{props.children}</UsersContext.Provider>;
+
+  const deletUser = (id) =>{
+    axios.delete(`https://banana-crumble-17466.herokuapp.com/users/user/${id}`)
+    .then(res =>{
+      console.log(res);
+
+    })
+  }
+  return <UsersContext.Provider value={[users,setUsers,isLoading,userRole,changeRole,deletUser]}>{props.children}</UsersContext.Provider>;
 };

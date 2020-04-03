@@ -19,7 +19,6 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 import { UsersContext } from "../ContextApi/UsersContext";
 import { useHistory } from "react-router-dom";
 import { getJwt } from "../../helpers/jwt";
-import SupervisorAccountIcon from '@material-ui/icons/SupervisorAccount';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,14 +39,10 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const AllUsers = () => {
-  const [users, setUsers, isLoading,userRole,changeRole] = useContext(UsersContext);
+  const [users, setUsers, isLoading,userRole,changeRole,deletUser] = useContext(UsersContext);
   const token = getJwt();
   let history = useHistory();
-  const delUser = id => {
-    let newUsers = [...users];
-    newUsers = newUsers.filter(e => e.id !== id);
-    setUsers(newUsers);
-  };
+ 
   const text = userRole === "User" ? "Make Admin" : "Remove Admin"
   const classes = useStyles();
   return (
@@ -63,7 +58,7 @@ const AllUsers = () => {
                 <Table className={classes.table} aria-label="simple table">
                   <TableHead >
                     <TableRow>
-                      <TableCell>Profile Image</TableCell>
+              
                       <TableCell>First Name</TableCell>
                       <TableCell>Last Name</TableCell>
                       <TableCell>Email</TableCell>
@@ -73,11 +68,7 @@ const AllUsers = () => {
                   </TableHead>
                   <TableBody>
                     {users.map(user => (
-                      <TableRow key={user.id} hover>
-                        <TableCell>
-                          {" "}
-                          <Avatar src="https://react-material-dashboard.devias.io/images/avatars/avatar_11.png" />
-                        </TableCell>
+                      <TableRow key={user._id} hover>
                         <TableCell>{user.firstname}</TableCell>
                         <TableCell>{user.lastname}</TableCell>
                         <TableCell>{user.email}</TableCell>
@@ -86,7 +77,7 @@ const AllUsers = () => {
                           <Tooltip title="Delete user">
                           <IconButton
                             onClick={() => {
-                              delUser(`${user.id}`);
+                              if(window.confirm("Are you sure?")) deletUser(`${user._id}`);
                             }}
                           >
                             <Delete />

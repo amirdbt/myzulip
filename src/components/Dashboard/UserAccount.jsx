@@ -11,7 +11,7 @@ import {
   TextField
 } from "@material-ui/core";
 import { UserContext } from "../ContextApi/UserContext";
-import axios from "axios"
+
 
 const useStyles = makeStyles(() => ({
   root: {}
@@ -22,12 +22,12 @@ const UserAccount = props => {
   const [phone, setPhone] = useState("");
   const [state, setState] = useState("");
   const [country, setCountry] = useState("");
-  const [user,setUser,updateUser,removePicture] = useContext(UserContext);
+  const [user, setUser, updateUser, deleteUser] = useContext(UserContext);
 
   const classes = useStyles();
 
   const handlePhone = event => {
-    const { value } = event.target;  
+    const { value } = event.target;
     setPhone(value);
   };
 
@@ -42,15 +42,10 @@ const UserAccount = props => {
   };
   const handleSubmit = event => {
     event.preventDefault();
-    axios.post("http://localhost:3001/users/profile",{
-      phone,
-      state,
-      country
-    }).then(res => console.log(res))
-    .catch(err =>{
-      console.log(err.response.data.message);
-    })
-    // updateUser(phone, state, country);
+    updateUser(phone, state, country);
+    setPhone("");
+    setState("");
+    setCountry("");
   };
 
   return (
