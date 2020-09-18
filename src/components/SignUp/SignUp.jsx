@@ -12,27 +12,27 @@ import { Link, useHistory } from "react-router-dom";
 import { Alert } from "@material-ui/lab";
 import axios from "axios";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: theme.palette.primary.main
+    backgroundColor: theme.palette.primary.main,
   },
   form: {
     width: "100%",
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(3),
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing(3, 0, 2),
   },
   alert: {
-    marginTop: theme.spacing(2)
-  }
+    marginTop: theme.spacing(2),
+  },
 }));
 
 const SignUp = () => {
@@ -45,24 +45,24 @@ const SignUp = () => {
   const [err, setErr] = useState("");
   let history = useHistory();
 
-  const onChangeFirstName = event => {
+  const onChangeFirstName = (event) => {
     const { value } = event.target;
     setFirstName(value);
   };
-  const onChangeLastName = event => {
+  const onChangeLastName = (event) => {
     const { value } = event.target;
     setLastName(value);
   };
-  const onChangeEmail = event => {
+  const onChangeEmail = (event) => {
     const { value } = event.target;
     setEmail(value);
   };
-  const onChangePassword = event => {
+  const onChangePassword = (event) => {
     const { value } = event.target;
     setPassword(value);
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = (event) => {
     event.preventDefault();
     if (
       firstname === "" ||
@@ -79,14 +79,16 @@ const SignUp = () => {
           firstname,
           lastname,
           password,
-          email
+          email,
         })
-        .then(res => localStorage.setItem("token", res.data.message))
-        .catch(error => {
+        .then((res) => {
+          localStorage.setItem("token", res.data.message);
+          history.push("/dashboard");
+        })
+        .catch((error) => {
           setError(true);
           setErr(`${error.response.data}`);
         });
-      history.push("/dashboard");
     }
   };
 
